@@ -4,10 +4,16 @@
   inputs = {
     # nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-24.11";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
-    nix-darwin.url = "github:LnL7/nix-darwin";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    home-manager.url = "github:nix-community/home-manager/release-24.11";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    home-manager = {
+      url = "github:nix-community/home-manager/release-24.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nixvim = {
       url = "github:nix-community/nixvim/nixos-24.11";
@@ -23,9 +29,7 @@
     configuration = { pkgs, ... }: {
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
-      environment.systemPackages =
-        [ pkgs.vim
-        ];
+      environment.systemPackages = [];
 
       # Necessary for using flakes on this system.
       nix.settings.experimental-features = "nix-command flakes";
@@ -42,15 +46,19 @@
 
       # The platform the configuration will be used on.
       nixpkgs.hostPlatform = "aarch64-darwin";
-      users.users.jueoneya = {
-        name = "jueoneya";
-        home = "/Users/jueoneya";
+
+      # nixpkgs.config.allowBroken = true; # if need
+      nixpkgs.config.allowUnfree = true; # for vault
+
+      users.users.jueon = {
+        name = "jueon";
+        home = "/Users/jueon";
       };
 
-      networking.computerName = "jueoneya";
+      networking.computerName = "jueon";
 
       nix.settings.trusted-users = [
-        "jueoneya"
+        "jueon"
       ];
 
       system = {
@@ -59,10 +67,9 @@
             ShowPathbar = true;
             FXPreferredViewStyle = "clmv";
             ShowExternalHardDrivesOnDesktop = false;
-            ShowHardDrivesOnDesktop = false;
-            ShowMountedServersOnDesktop = false;
             ShowRemovableMediaOnDesktop = false;
           };
+          hitoolbox.AppleFnUsageType = "Do Nothing";
 
           dock = {
             tilesize = 20;
@@ -81,17 +88,18 @@
               "/System/Applications/Calendar.app"
             ];
           };
-          CustomUserPreferences = {
-            "com.apple.screencapture" = {
-              location = "~/Documents/screenshots";
-              type = "png";
-            };
-          };
 
-          # NSGlobalDomain = {
-          #   InitialKeyRepeat = 2;
-          #   KeyRepeat = 3;
-          # };
+          NSGlobalDomain = {
+            InitialKeyRepeat = 15;
+            KeyRepeat = 2;
+            ApplePressAndHoldEnabled = false;
+            NSAutomaticCapitalizationEnabled = false;
+            NSAutomaticDashSubstitutionEnabled = false;
+            NSAutomaticInlinePredictionEnabled = false;
+            NSAutomaticPeriodSubstitutionEnabled = false;
+            NSAutomaticQuoteSubstitutionEnabled = false;
+            NSAutomaticSpellingCorrectionEnabled = false;
+          };
 
           SoftwareUpdate = {
             AutomaticallyInstallMacOSUpdates = false;
@@ -101,7 +109,12 @@
             Clicking = true;
             ActuationStrength = 0;
           };
+
+          menuExtraClock = {
+            ShowSeconds = true;
+          };
         };
+
         keyboard = {
             enableKeyMapping = true;
             remapCapsLockToControl = true;
@@ -111,8 +124,8 @@
   in
   {
     # Build darwin flake using:
-    # $ darwin-rebuild build --flake .#jueoneya
-    darwinConfigurations."jueoneya" = nix-darwin.lib.darwinSystem {
+    # $ darwin-rebuild build --flake .#jueon
+    darwinConfigurations."jueon" = nix-darwin.lib.darwinSystem {
       modules = [
         configuration
 
@@ -122,10 +135,10 @@
           home-manager.sharedModules = [
             nixvim.homeManagerModules.nixvim
           ];
-          users.users.jueoneya = {
-            home = "/Users/jueoneya";
+          users.users.jueon = {
+            home = "/Users/jueon";
           };
-          home-manager.users.jueoneya = {
+          home-manager.users.jueon = {
             imports = [
               ./home.nix
               mac-app-util.homeManagerModules.default
