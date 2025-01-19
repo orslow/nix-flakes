@@ -8,7 +8,8 @@
 
     packages = with pkgs; [
       (nerdfonts.override { fonts = [ "Meslo" ]; })
-      awscli
+      appcleaner
+      awscli2
       bat
       difftastic
       direnv
@@ -17,12 +18,12 @@
       k9s
       # kanata # https://github.com/NixOS/nixpkgs/issues/366356
       karabiner-elements
-      # keyd # not support aarch64-darwin
       kubectl
       kubernetes-helm
       openssl
       poetry
       postgresql
+      rectangle
       saml2aws
       shellcheck
       sqlite
@@ -122,6 +123,7 @@
         ca = "commit --amend";
         cane = "commit --amend --no-edit";
         co = "checkout";
+        cob = "checkout -b";
         cp = "cherry-pick";
         d = "diff";
         f = "fetch";
@@ -135,8 +137,9 @@
         pr = "pull --rebase";
         s = "status";
         ss = "status --short";
-        sw = "switch";
         ssb = "status --short --branch";
+        sw = "switch";
+        swc = "switch -c";
       };
       extraConfig = {
         # Sign all commits using ssh key
