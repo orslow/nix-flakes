@@ -26,9 +26,11 @@
       rectangle
       saml2aws
       shellcheck
+      slack
       sqlite
       unzip
       vault
+      watch
       wget
       yq
       z-lua

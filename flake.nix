@@ -64,10 +64,11 @@
       system = {
         defaults = {
           finder = {
-            ShowPathbar = true;
             FXPreferredViewStyle = "clmv";
+            NewWindowTarget = "OS volume";
             ShowExternalHardDrivesOnDesktop = false;
             ShowRemovableMediaOnDesktop = false;
+            ShowPathbar = true;
           };
           hitoolbox.AppleFnUsageType = "Do Nothing";
 
@@ -106,11 +107,14 @@
           };
           
           trackpad = {
-            Clicking = true;
             ActuationStrength = 0;
+            Clicking = true;
+            FirstClickThreshold = 0;
+            TrackpadThreeFingerTapGesture = 2;
           };
 
           menuExtraClock = {
+            Show24Hour = true;
             ShowSeconds = true;
           };
         };
