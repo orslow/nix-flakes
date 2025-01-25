@@ -3,6 +3,8 @@
   #   ./configs
   # ];
 
+  xdg.enable = true;
+
   home = {
     stateVersion = "24.11";
 
@@ -12,13 +14,12 @@
       awscli2
       bat
       difftastic
-      direnv
       dive
       htop
-      k9s
+      jq
       # kanata # https://github.com/NixOS/nixpkgs/issues/366356
-      karabiner-elements
       kubectl
+      kubectx
       kubernetes-helm
       openssl
       poetry
@@ -26,14 +27,12 @@
       rectangle
       saml2aws
       shellcheck
-      slack
       sqlite
       unzip
       vault
       watch
       wget
       yq
-      z-lua
       zip
     ];
   };
@@ -62,7 +61,7 @@
           };
           bold = {
             family = "MesloLGS Nerd Font";
-            style = "Regular";
+            style = "Bold";
           };
         };
         colors = {
@@ -98,6 +97,11 @@
       };
     };
 
+    direnv = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+
     fzf = {
       enable = true;
       enableZshIntegration = true;
@@ -108,14 +112,19 @@
       userEmail = "juuueon@gmail.com";
       userName = "Jueon Park";
       ignores = [
+        ".DS_Store"
         ".env"
-        ".venv"
-        "venv"
+        ".envrc"
         ".idea"
         ".metals"
-        ".vscode"
+        ".mise.toml"
+        ".terraform.lock.hcl"
         ".tool-versions"
-        "mise.toml"
+        ".venv"
+        ".vscode"
+        "__pycache__"
+        "out"
+        "venv"
       ];
       aliases = {
         a = "add";
@@ -137,6 +146,7 @@
         lola = "log --graph --decorate --pretty=oneline --abbrev-commit --all";
         pl = "pull";
         pr = "pull --rebase";
+        publish = "!f() { git push --set-upstream \${1:-origin} $(git rev-parse --abbrev-ref HEAD); }; f";
         s = "status";
         ss = "status --short";
         ssb = "status --short --branch";
@@ -144,10 +154,136 @@
         swc = "switch -c";
       };
       extraConfig = {
+        core = {
+          editor = "nvim";
+        };
         # Sign all commits using ssh key
         commit.gpgsign = true;
         gpg.format = "ssh";
         user.signingkey = "~/.ssh/id_ed25519.pub";
+      };
+    };
+
+    k9s = {
+      enable = true;
+      settings = {
+        k9s = {
+          refreshRate = 2;
+          ui = {
+            enableMouse = false;
+            headless = false;
+            logoless = true;
+            crumbsless = false;
+            reactive = false;
+            noIcons = false;
+            defaultsToFullScreen = false;
+            skin = "light";
+          };
+        };
+      };
+      skins = {
+        light = {
+          k9s = {
+            body = {
+              fgColor = "#000000";
+              bgColor = "#ffffff";
+              logoColor = "#268bd2";
+            };
+            prompt = {
+              fgColor = "#000000";
+              bgColor = "#ffffff";
+              suggestColor = "#cb4b16";
+            };
+            info = {
+              fgColor = "#d33682";
+              sectionColor = "#000000";
+            };
+            dialog = {
+              fgColor = "#000000";
+              bgColor = "#ffffff";
+              buttonFgColor = "#000000";
+              buttonBgColor = "#d33682";
+              buttonFocusFgColor = "white";
+              buttonFocusBgColor = "#2aa198";
+              labelFgColor = "#cb4b16";
+              fieldFgColor = "#000000";
+            };
+            frame = {
+              border = {
+                fgColor = "#eee8d5";
+                focusColor = "#000000";
+              };
+              menu = {
+                fgColor = "#000000";
+                keyColor = "#d33682";
+                numKeyColor = "#d33682";
+              };
+              crumbs = {
+                fgColor = "white";
+                bgColor = "#2aa198";
+                activeColor = "#b58900";
+              };
+              status = {
+                # newColor = "#2aa198";
+                newColor = "#4f4f4f";
+                modifyColor = "#268bd2";
+                addColor = "#859900";
+                errorColor = "#dc322f";
+                highlightColor = "#cb4b16";
+                killColor = "#93a1a1";
+                completedColor = "#93a1a1";
+              };
+              title = {
+                fgColor = "#000000";
+                bgColor = "#ffffff";
+                highlightColor = "#268bd2";
+                counterColor = "#d33682";
+                filterColor = "#d33682";
+              };
+            };
+            views = {
+              charts = {
+                bgColor = "default";
+                defaultDialColors = [ "#268bd2" "#dc322f" ];
+                defaultChartColors = [ "#268bd2" "#dc322f" ];
+              };
+              table = {
+                fgColor = "#000000";
+                bgColor = "#ffffff";
+                cursorFgColor = "white";
+                cursorBgColor = "#ffffff";
+                markColor = "darkgoldenrod";
+                header = {
+                  fgColor = "#000000";
+                  bgColor = "#ffffff";
+                  sorterColor = "#2aa198";
+                };
+              };
+              xray = {
+                fgColor = "#000000";
+                bgColor = "#ffffff";
+                cursorColor = "#eee8d5";
+                graphicColor = "#268bd2";
+                showIcons = false;
+              };
+              yaml = {
+                keyColor = "#d33682";
+                colonColor = "#268bd2";
+                valueColor = "#000000";
+              };
+              logs = {
+                fgColor = "#000000";
+                bgColor = "#ffffff";
+                indicator = {
+                  fgColor = "#000000";
+                  bgColor = "#eee8d5";
+                  toggleOnColor = "#d33682";
+                  toggleOffColor = "#268bd2";
+                };
+              };
+            };
+          };
+        };
       };
     };
 
@@ -167,6 +303,8 @@
             "zulu-8.80.0.17"
           ];
           ruby = "2.7.8";
+          rust = "1.84.0";
+          sbt = "1.10.7";
           terraform = [
             "1.10.3"
           ];
@@ -183,6 +321,8 @@
         loaded_netrw = 1;
         loaded_netrwPlugin = 1;
       };
+
+      colorscheme = "lunaperche";
   
       opts = {
         startofline = true;
@@ -206,23 +346,67 @@
       };
   
       colorschemes = {
-        base16 = {
-          enable = true;
-          colorscheme = "google-light";
-        };
-        # modus = {
+        # base16 = {
         #   enable = true;
+        #   colorscheme = "google-light";
+        #   setUpBar = false;
         #   settings = {
+        #     telescope = true;
+        #     telescope_borders = true;
         #   };
         # };
       };
   
       plugins = {
+        gitblame = {
+          enable = true;
+          settings = {
+            date_format = "%Y/%m/%d";
+            enabled = false;
+            delay = 10;
+          };
+        };
+        gitsigns = {
+          enable = true;
+        };
+        lualine = {
+          enable = true;
+          settings = {
+            sections = {
+              lualine_x = [
+                "encoding"
+                "filetype"
+              ];
+            };
+            options = {
+              # theme = "base16";
+              theme = "onelight";
+              section_separators = {
+                left = "";
+                right = "";
+              };
+              component_separators = {
+                left = "/";
+                right = "/";
+              };
+            };
+          };
+        };
         lsp-format = {
           enable = true;
+          settings = {
+            typescript = {
+              exclude = [
+                "ts_ls"
+              ];
+            };
+          };
         };
         lsp = {
           enable = true;
+          onAttach = ''
+            client.server_capabilities.semanticTokensProvider = nil
+          '';
           servers = {
             pyright = {
               enable = true;
@@ -245,6 +429,9 @@
               enable = true;
             };
             markdown_oxide = {
+              enable = true;
+            };
+            ts_ls = {
               enable = true;
             };
           };
@@ -356,6 +543,7 @@
             scala
             go
             terraform
+            typescript
           ];
   
           settings = {
@@ -403,7 +591,23 @@
             hash = "sha256-Z+5Kv1jzzmKSmTtswd1XIskPhmrIHTPmJ+F/gX5/TiE=";
         };
       })];
+
       keymaps = [
+        # gitblame
+        {
+          action = "<cmd>GitBlameToggle<cr>";
+          key = "<leader>blt";
+        }
+        {
+          action = "<cmd>GitBlameOpenCommitURL<cr>";
+          key = "<leader>bloc";
+        }
+        {
+          action = "<cmd>GitBlameOpenFileURL<cr>";
+          key = "<leader>blof";
+        }
+
+        # telescope
         {
           action = "<cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<cr>";
           key = "<leader>ff";
@@ -463,6 +667,10 @@
         
         # copy-mode(for scrolling to me) re-mapping
         bind-key C-u copy-mode
+
+        # v to visual, y to yank
+        bind-key -T copy-mode-vi v send-keys -X begin-selection
+        bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
         
         set-option -g renumber-windows on
         
@@ -488,6 +696,11 @@
       '';
     };
 
+    z-lua = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+
     zsh = {
       enable = true;
       enableCompletion = true;
@@ -497,9 +710,11 @@
         k = "kubectl";
         tf = "AWS_PROFILE=saml terraform";
         va = ". .venv/bin/activate";
+        rgh= "rg --hidden";
       };
       history = {
-        size = 10000;
+        ignoreDups = false;
+        # size = 10000;
         # path = "${config.xdg.dataHome}/zsh/history";
       };
       initExtra = ''
@@ -510,6 +725,10 @@
         # bash style word selection
         autoload -U select-word-style
         select-word-style bash
+
+        # XXX. k9s
+        export K9S_CONFIG_DIR=~/.config/k9s
+        export RUNEWIDTH_EASTASIAN=0
       '';
   
       plugins = [

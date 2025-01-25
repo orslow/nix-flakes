@@ -20,7 +20,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     mac-app-util = {
-      url ="github:hraban/mac-app-util";
+      url = "github:hraban/mac-app-util";
     };
   };
 
@@ -36,6 +36,8 @@
 
       # Enable alternative shell support in nix-darwin.
       # programs.fish.enable = true;
+
+      services = {};
 
       # Set Git commit hash for darwin-version.
       system.configurationRevision = self.rev or self.dirtyRev or null;
@@ -90,6 +92,10 @@
             ];
           };
 
+          loginwindow = {
+            GuestEnabled = false;
+          };
+
           NSGlobalDomain = {
             InitialKeyRepeat = 15;
             KeyRepeat = 2;
@@ -132,7 +138,6 @@
     darwinConfigurations."jueon" = nix-darwin.lib.darwinSystem {
       modules = [
         configuration
-
         home-manager.darwinModules.home-manager {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
