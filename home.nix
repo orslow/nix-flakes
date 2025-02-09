@@ -13,6 +13,8 @@
       appcleaner
       awscli2
       bat
+      cmake
+      databricks-cli
       difftastic
       dive
       htop
@@ -21,6 +23,7 @@
       kubectl
       kubectx
       kubernetes-helm
+      # leveldb
       openssl
       poetry
       postgresql
@@ -404,7 +407,30 @@
             client.server_capabilities.semanticTokensProvider = nil
           '';
           servers = {
+            gopls = {
+              enable = true;
+            };
+            lua_ls = {
+              enable = false;
+            };
+            markdown_oxide = {
+              enable = true;
+            };
             pyright = {
+              enable = true;
+            };
+            rust_analyzer = {
+              enable = true;
+              installCargo = false;
+              installRustc = false;
+            };
+            terraformls = {
+              enable = true;
+            };
+            ts_ls = {
+              enable = true;
+            };
+            yamlls = {
               enable = true;
             };
             # just use idea
@@ -412,24 +438,6 @@
             #   enable = true;
             #   filetypes = ["scala" "sbt"];
             # };
-            gopls = {
-              enable = true;
-            };
-            terraformls = {
-              enable = true;
-            };
-            lua_ls = {
-              enable = false;
-            };
-            yamlls = {
-              enable = true;
-            };
-            markdown_oxide = {
-              enable = true;
-            };
-            ts_ls = {
-              enable = true;
-            };
           };
           keymaps = {
             lspBuf = {
