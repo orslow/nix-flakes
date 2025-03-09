@@ -132,6 +132,7 @@
       aliases = {
         a = "add";
         aa = "add --all";
+        ap = "add --patch";
         b = "branch";
         c = "commit -v";
         ca = "commit --amend";
@@ -321,7 +322,8 @@
         loaded_netrwPlugin = 1;
       };
 
-      colorscheme = "lunaperche";
+      # colorscheme = "lunaperche";
+      colorscheme = "github_light_high_contrast";
   
       opts = {
         startofline = true;
@@ -337,6 +339,7 @@
         splitbelow = true;
   
         # tab
+        tabstop = 4;
         expandtab = true;
   
         # search settings
@@ -344,19 +347,40 @@
         smartcase = true;
       };
   
-      colorschemes = {
-        # base16 = {
-        #   enable = true;
-        #   colorscheme = "google-light";
-        #   setUpBar = false;
-        #   settings = {
-        #     telescope = true;
-        #     telescope_borders = true;
-        #   };
-        # };
-      };
+      # colorschemes = {
+      #   base16 = {
+      #     enable = true;
+      #     colorscheme = "google-light";
+      #     setUpBar = false;
+      #     settings = {
+      #       telescope = true;
+      #       telescope_borders = true;
+      #     };
+      #   };
+      # };
   
       plugins = {
+        avante = {
+          enable = true;
+          settings = {
+            provider = "openai";
+          };
+        };
+        copilot-lua = {
+          enable = true;
+          panel = {
+            enabled = false;
+          };
+          suggestion = {
+            enabled = false;
+          };
+        };
+        # copilot-cmp = {
+        #   enable = true;
+        # };
+        fugitive = {
+          enable = true;
+        };
         gitblame = {
           enable = true;
           settings = {
@@ -378,7 +402,6 @@
               ];
             };
             options = {
-              # theme = "base16";
               theme = "onelight";
               section_separators = {
                 left = "";
@@ -409,6 +432,12 @@
           servers = {
             gopls = {
               enable = true;
+            };
+            helm_ls = {
+              enable = true;
+              filetypes = [
+                "yaml"
+              ];
             };
             lua_ls = {
               enable = false;
@@ -584,19 +613,50 @@
         luasnip = {
           enable = true;
         };
+
       };
   
-      extraPlugins = [(pkgs.vimUtils.buildVimPlugin {
-        name = "vim-system-copy";
-        src = pkgs.fetchFromGitHub {
-            owner = "christoomey";
-            repo = "vim-system-copy";
-            rev = "8abd9ed21016bdc21b458c79da3b9ac0ee25c1ce";
-            hash = "sha256-Z+5Kv1jzzmKSmTtswd1XIskPhmrIHTPmJ+F/gX5/TiE=";
-        };
-      })];
+      extraPlugins = [
+        (pkgs.vimUtils.buildVimPlugin {
+          name = "vim-system-copy";
+          src = pkgs.fetchFromGitHub {
+              owner = "christoomey";
+              repo = "vim-system-copy";
+              rev = "8abd9ed21016bdc21b458c79da3b9ac0ee25c1ce";
+              hash = "sha256-Z+5Kv1jzzmKSmTtswd1XIskPhmrIHTPmJ+F/gX5/TiE=";
+          };
+        })
+        (pkgs.vimUtils.buildVimPlugin {
+          name = "github-nvim-theme";
+          src = pkgs.fetchFromGitHub {
+              owner = "projekt0n";
+              repo = "github-nvim-theme";
+              rev = "c106c9472154d6b2c74b74565616b877ae8ed31d";
+              hash = "sha256-/A4hkKTzjzeoR1SuwwklraAyI8oMkhxrwBBV9xb59PA=";
+          };
+        })
+        (pkgs.vimUtils.buildVimPlugin {
+          name = "vim-maximizer";
+          src = pkgs.fetchFromGitHub {
+              owner = "szw";
+              repo = "vim-maximizer";
+              rev = "2e54952fe91e140a2e69f35f22131219fcd9c5f1";
+              hash = "sha256-+VPcMn4NuxLRpY1nXz7APaXlRQVZD3Y7SprB/hvNKww=";
+          };
+        })
+      ];
 
       keymaps = [
+        # file path copy
+        {
+          action = "<cmd>let @+ = expand('%')<cr>";
+          key = "<leader>py";
+        }
+        #blame
+        {
+          action = "<cmd>Git blame<cr>";
+          key = "<leader>gbl";
+        }
         # gitblame
         {
           action = "<cmd>GitBlameToggle<cr>";
@@ -625,6 +685,12 @@
         {
           action = "<cmd>NvimTreeFocus<cr>";
           key = "<leader>ef";
+        }
+
+        # vim-maximizer
+        {
+          action = "<cmd>MaximizerToggle<cr>";
+          key = "<leader>z";
         }
       ];
     };
