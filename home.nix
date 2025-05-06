@@ -25,17 +25,18 @@
       kubernetes-helm
       # leveldb
       openssl
-      poetry
-      postgresql
+      # postgresql
+      # psqlodbc
       rectangle
       saml2aws
       shellcheck
       sqlite
       unzip
+      uv
       vault
       watch
       wget
-      yq
+      yq-go
       zip
     ];
   };
@@ -302,6 +303,7 @@
           java = [
             "zulu-8.80.0.17"
           ];
+          poetry = "2.1.1";
           ruby = "2.7.8";
           rust = "1.84.0";
           sbt = "1.10.7";
@@ -396,6 +398,13 @@
           enable = true;
           settings = {
             sections = {
+              lualine_c = [
+                {
+                  __unkeyed-1 = "filename";
+                  newfile_status = true;
+                  path = 1;
+                }
+              ];
               lualine_x = [
                 "encoding"
                 "filetype"
@@ -740,7 +749,8 @@
 
         # v to visual, y to yank
         bind-key -T copy-mode-vi v send-keys -X begin-selection
-        bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
+        bind-key -T copy-mode-vi y send-keys -X copy-selection # -and-cancel
+        bind-key -T copy-mode-vi Enter send-keys -X copy-selection # -and-cancel
         
         set-option -g renumber-windows on
         
