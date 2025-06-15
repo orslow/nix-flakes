@@ -9,24 +9,20 @@
     stateVersion = "24.11";
 
     packages = with pkgs; [
-      (nerdfonts.override { fonts = [ "Meslo" ]; })
+      nerd-fonts.meslo-lg
       appcleaner
       awscli2
-      bat
+      claude-code
       cmake
       databricks-cli
       difftastic
       dive
       htop
       jq
-      # kanata # https://github.com/NixOS/nixpkgs/issues/366356
       kubectl
       kubectx
       kubernetes-helm
       # leveldb
-      openssl
-      # postgresql
-      # psqlodbc
       rectangle
       saml2aws
       shellcheck
@@ -39,6 +35,26 @@
       yq-go
       zip
     ];
+
+    file = {
+      "/Users/jueon/Library/KeyBindings/DefaultKeyBinding.dict".text = ''
+        {
+          "₩" = ("insertText:", "`");
+        }
+      '';
+    };
+  };
+
+  targets = {
+    darwin = {
+      # https://github.com/nix-community/home-manager/issues/6120
+      # keybindings = {
+      #   "₩" = "`";
+      #   "~\010" = "deleteWordBackward:";
+      #   "~v" = "pageUp:";
+      #   "^s" = "deleteWordBackward:";
+      # };
+    };
   };
 
   programs = {
@@ -101,6 +117,10 @@
       };
     };
 
+    bat = {
+      enable = true;
+    };
+
     direnv = {
       enable = true;
       enableZshIntegration = true;
@@ -127,6 +147,7 @@
         ".venv"
         ".vscode"
         "__pycache__"
+        "mise.toml"
         "out"
         "venv"
       ];
@@ -181,6 +202,40 @@
             skin = "light";
           };
         };
+      };
+      views = {
+          views = {
+            # "v1/pods" = {
+            #   columns = [
+            #     "AGE"
+            #     "NAMESPACE"
+            #     "NAME"
+            #     "IP"
+            #     "NODE"
+            #     "STATUS"
+            #     "READY"
+            #   ];
+            # };
+            "v1/nodes" = {
+              sortColumn = "AGE:asc";
+              columns = [
+                "NAME"
+                "STATUS"
+                "ROLE"
+                "TAINTS"
+                "PODS"
+                "CPU"
+                "MEM"
+                "%CPU"
+                "%MEM"
+                "CPU/A"
+                "MEM/A"
+                "VERSION"
+                "AGE"
+                "INSTANCE_TYPE:.metadata.labels.node\\.kubernetes\\.io/instance-type"
+              ];
+            };
+          };
       };
       skins = {
         light = {
@@ -290,6 +345,7 @@
 
     mise = {
       enable = true;
+      enableZshIntegration = true;
       globalConfig = {
         tools = {
           python = [
@@ -311,6 +367,9 @@
             "1.10.3"
           ];
         };
+        settings = {
+          idiomatic_version_file_enable_tools = [];
+        };
       };
     };
 
@@ -324,8 +383,9 @@
         loaded_netrwPlugin = 1;
       };
 
+      colorscheme = "macvim-light";
       # colorscheme = "lunaperche";
-      colorscheme = "github_light_high_contrast";
+      # colorscheme = "github_light_high_contrast";
   
       opts = {
         startofline = true;
@@ -349,17 +409,23 @@
         smartcase = true;
       };
   
-      # colorschemes = {
-      #   base16 = {
-      #     enable = true;
-      #     colorscheme = "google-light";
-      #     setUpBar = false;
-      #     settings = {
-      #       telescope = true;
-      #       telescope_borders = true;
-      #     };
-      #   };
-      # };
+      colorschemes = {
+        # modus = {
+        #   enable = true;
+        #   settings = {
+        #     variant = "tritanopia";
+        #   };
+        # };
+        # base16 = {
+        #   enable = true;
+        #   colorscheme = "google-light";
+        #   setUpBar = false;
+        #   settings = {
+        #     telescope = true;
+        #     telescope_borders = true;
+        #   };
+        # };
+      };
   
       plugins = {
         avante = {
@@ -370,11 +436,13 @@
         };
         copilot-lua = {
           enable = true;
-          panel = {
-            enabled = false;
-          };
-          suggestion = {
-            enabled = false;
+          settings = {
+            panel = {
+              enabled = false;
+            };
+            suggestion = {
+              enabled = false;
+            };
           };
         };
         # copilot-cmp = {
@@ -645,6 +713,15 @@
           };
         })
         (pkgs.vimUtils.buildVimPlugin {
+          name = "macvim-light";
+          src = pkgs.fetchFromGitHub {
+              owner = "orslow";
+              repo = "macvim-light";
+              rev = "f84bb403d455820737e45a4140020ab6ae2349b5";
+              hash = "sha256-z7QJobXUjvgWFBzCzYruQZQUc6cHQwUmlbGhLKgEltc=";
+          };
+        })
+        (pkgs.vimUtils.buildVimPlugin {
           name = "vim-maximizer";
           src = pkgs.fetchFromGitHub {
               owner = "szw";
@@ -790,14 +867,16 @@
         k = "kubectl";
         tf = "AWS_PROFILE=saml terraform";
         va = ". .venv/bin/activate";
-        rgh= "rg --hidden";
+        rgh = "rg --hidden";
+        k9s = "k9s --readonly=true";
+        k9sw = "k9s --readonly=false";
       };
       history = {
         ignoreDups = false;
         # size = 10000;
         # path = "${config.xdg.dataHome}/zsh/history";
       };
-      initExtra = ''
+      initContent = ''
         # case insensitve
         zstyle ''\':completion:*''\' matcher-list ''\'''\' ''\'m:{a-zA-Z}={A-Za-z}''\' ''\'r:|=*''\' ''\'l:|=* r:|=*''\'
         autoload -Uz compinit && compinit
@@ -827,6 +906,7 @@
 
     home-manager = {
       enable = true;
+      path  = "$HOME/Documents/git/home-manager";
     };
   };
 }
