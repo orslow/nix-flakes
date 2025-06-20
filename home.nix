@@ -17,6 +17,7 @@
       databricks-cli
       difftastic
       dive
+      duckdb
       htop
       jq
       kubectl
@@ -352,6 +353,7 @@
             "3.10"
             "3.11"
             "3.12"
+            "3.13"
           ];
           scala = "2.12.18";
           nodejs = "23.5.0";
@@ -431,7 +433,7 @@
         avante = {
           enable = true;
           settings = {
-            provider = "openai";
+            provider = "claude";
           };
         };
         copilot-lua = {
