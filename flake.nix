@@ -21,14 +21,30 @@
     mac-app-util = {
       url = "github:hraban/mac-app-util";
     };
+
+    agenix.url = "github:ryantm/agenix";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, mac-app-util }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, mac-app-util, agenix }:
   let
     configuration = { pkgs, ... }: {
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
-      environment.systemPackages = [];
+      environment.systemPackages = [
+        agenix.packages.aarch64-darwin.default
+      ];
+
+      # age.secrets.secret1.file = ./secrets/secret1.age;
+      # age.secrets.secret1.path = "/etc/monitrc";
+      age.identityPaths = [ "/Users/jueon/.ssh/id_ed25519" ];
+      age.secrets.github-token = {
+        file = ./secrets/secret1.age;
+        path = "/Users/jueon/.anthropic-api-key-2";
+        owner = "jueon";
+        group = "staff";
+        mode = "0400";
+      };
+
 
       # Necessary for using flakes on this system.
       nix.settings.experimental-features = "nix-command flakes";
@@ -156,6 +172,8 @@
           };
         }
         mac-app-util.darwinModules.default
+        agenix.darwinModules.default
+
       ];
     };
   };
