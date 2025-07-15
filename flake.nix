@@ -106,7 +106,7 @@
             show-recents = false;
             persistent-apps = [
               "/System/Cryptexes/App/System/Applications/Safari.app"
-              "Applications/Firefox.app"
+              "Applications/Google\ Chrome.app"
               "/System/Applications/Music.app"
               "/System/Applications/Notes.app"
               "/System/Applications/Reminders.app"

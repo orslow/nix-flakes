@@ -24,6 +24,7 @@
       kubectx
       kubernetes-helm
       # leveldb
+      monitorcontrol
       rectangle
       saml2aws
       shellcheck
@@ -187,6 +188,10 @@
       };
     };
 
+    gh = {
+      enable = true;
+    };
+
     k9s = {
       enable = true;
       settings = {
@@ -222,7 +227,6 @@
               columns = [
                 "NAME"
                 "STATUS"
-                "ROLE"
                 "TAINTS"
                 "PODS"
                 "CPU"
@@ -234,6 +238,7 @@
                 "VERSION"
                 "AGE"
                 "INSTANCE_TYPE:.metadata.labels.node\\.kubernetes\\.io/instance-type"
+                "NODEPOOL:.metadata.labels.karpenter\\.sh/nodepool"
               ];
             };
           };
@@ -365,9 +370,7 @@
           ruby = "2.7.8";
           rust = "1.84.0";
           sbt = "1.10.7";
-          terraform = [
-            "1.10.3"
-          ];
+          terraform = "1.11.4";
         };
         settings = {
           idiomatic_version_file_enable_tools = [];
