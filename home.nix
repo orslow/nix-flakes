@@ -510,6 +510,14 @@
           enable = true;
           onAttach = ''
             client.server_capabilities.semanticTokensProvider = nil
+
+            -- Configure diagnostic display
+            vim.diagnostic.config({
+              virtual_text = {
+                source = "always",
+                prefix = "*",
+              },
+            })
           '';
           servers = {
             gopls = {
@@ -576,6 +584,13 @@
                 action = "rename";
                 desc = "Rename";
               };
+              # "K" = {
+              #   action = "hover";
+              #   desc = "Show hover information";
+              # };
+              # "<leader>e" = "vim.diagnostic.open_float";
+              # "[d" = "vim.diagnostic.goto_prev";
+              # "]d" = "vim.diagnostic.goto_next";
             };
           };
         };
@@ -889,6 +904,20 @@
         # bash style word selection
         autoload -U select-word-style
         select-word-style bash
+
+        export EDITOR=nvim
+        export VISUAL=nvim
+
+        # XXX. avante
+        if [ -f ~/.anthropic_api_key ]; then
+            export AVANTE_ANTHROPIC_API_KEY=$(cat ~/.anthropic_api_key)
+            export ANTHROPIC_API_KEY=$(cat ~/.anthropic_api_key)
+        fi
+
+        # XXX. gh
+        if [ -f ~/.github_token ]; then
+            export GH_TOKEN=$(cat ~/.github_token)
+        fi
 
         # XXX. k9s
         export K9S_CONFIG_DIR=~/.config/k9s
