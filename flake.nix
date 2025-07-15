@@ -34,12 +34,17 @@
         agenix.packages.aarch64-darwin.default
       ];
 
-      # age.secrets.secret1.file = ./secrets/secret1.age;
-      # age.secrets.secret1.path = "/etc/monitrc";
       age.identityPaths = [ "/Users/jueon/.ssh/id_ed25519" ];
-      age.secrets.github-token = {
-        file = ./secrets/secret1.age;
-        path = "/Users/jueon/.anthropic-api-key-2";
+      age.secrets.githubToken = {
+        file = ./secrets/github_token.age;
+        path = "/Users/jueon/.github_token";
+        owner = "jueon";
+        group = "staff";
+        mode = "0400";
+      };
+      age.secrets.anthropicApiKey = {
+        file = ./secrets/anthropic_api_key.age;
+        path = "/Users/jueon/.anthropic_api_key";
         owner = "jueon";
         group = "staff";
         mode = "0400";

@@ -3,4 +3,6 @@ let
 in
 {
   "secret1.age".publicKeys = [ jueon ];
+  "anthropic_api_key.age".publicKeys = [ jueon ];
+  "github_token.age".publicKeys = [ jueon ];
 }
