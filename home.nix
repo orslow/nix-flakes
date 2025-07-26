@@ -152,6 +152,7 @@
         "mise.toml"
         "out"
         "venv"
+        ".claude/"
       ];
       aliases = {
         a = "add";
@@ -167,7 +168,7 @@
         d = "diff";
         f = "fetch";
         l = "log";
-        lg = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(magenta)%s%C(reset) %C(green)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all";
+        lg = "log --graph --abbrev-commit --decorate --date=short --format=format:'%C(bold blue)%h%C(reset) - %C(bold black)(%ad)%C(reset) %C(red)%s%C(reset) %C(black)- %an%C(reset)%C(blue)%d%C(reset)' --all";
         lgpt = "log --pretty=format:'%h %s' --graph";
         lo = "log --oneline";
         lol = "log --graph --decorate --pretty=oneline --abbrev-commit";
@@ -239,6 +240,7 @@
                 "AGE"
                 "INSTANCE_TYPE:.metadata.labels.node\\.kubernetes\\.io/instance-type"
                 "NODEPOOL:.metadata.labels.karpenter\\.sh/nodepool"
+                "AZ:.metadata.labels.topology\\.kubernetes\\.io/zone"
               ];
             };
           };
@@ -370,7 +372,10 @@
           ruby = "2.7.8";
           rust = "1.84.0";
           sbt = "1.10.7";
-          terraform = "1.11.4";
+          terraform = [
+            "1.11.4"
+            "1.12.2"
+          ];
         };
         settings = {
           idiomatic_version_file_enable_tools = [];
@@ -437,6 +442,30 @@
           enable = true;
           settings = {
             provider = "claude";
+            auto_suggestions_provider = "claude";
+            hints.enabled = true;
+            behaviour = {
+              auto_suggestions = true;
+            };
+            windows = {
+              wrap = true;
+              width = 30;
+              sidebar_header = {
+                align = "center";
+                rounded = true;
+              };
+            };
+            highlights = {
+              diff = {
+                current = "DiffText";
+                incoming = "DiffAdd";
+              };
+            };
+            diff = {
+              debug = false;
+              autojump = true;
+              list_opener = "copen";
+            };
           };
         };
         copilot-lua = {
@@ -550,7 +579,7 @@
               enable = true;
             };
             yamlls = {
-              enable = true;
+              enable = false;  # disable for helm
             };
             # just use idea
             # metals = {
@@ -712,6 +741,16 @@
         };
 
       };
+
+      highlightOverride = {
+        AvanteSidebarWinSeparator = {
+          fg = "#000000";
+          bg = "#ffffff";
+        };
+        AvanteToBeDeletedWOStrikethrough = {
+          bg = "#ffcfec";
+        };
+      };
   
       extraPlugins = [
         (pkgs.vimUtils.buildVimPlugin {
@@ -737,8 +776,8 @@
           src = pkgs.fetchFromGitHub {
               owner = "orslow";
               repo = "macvim-light";
-              rev = "f84bb403d455820737e45a4140020ab6ae2349b5";
-              hash = "sha256-z7QJobXUjvgWFBzCzYruQZQUc6cHQwUmlbGhLKgEltc=";
+              rev = "31467ca33c56a16691cca4c3b52c263948a9c954";
+              hash = "sha256-X9mG5uR+WfcJN6wFb+579O98CttfCr9rWsPP1Po0kDc=";
           };
         })
         (pkgs.vimUtils.buildVimPlugin {
@@ -876,6 +915,7 @@
     z-lua = {
       enable = true;
       enableZshIntegration = true;
+      enableAliases = true;
     };
 
     zsh = {
@@ -890,6 +930,7 @@
         rgh = "rg --hidden";
         k9s = "k9s --readonly=true";
         k9sw = "k9s --readonly=false";
+        claude = "claude --dangerously-skip-permissions";
       };
       history = {
         ignoreDups = false;
