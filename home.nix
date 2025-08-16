@@ -10,11 +10,13 @@
 
     packages = with pkgs; [
       nerd-fonts.meslo-lg
+      anki-bin
       appcleaner
       awscli2
       claude-code
       cmake
       databricks-cli
+      dbeaver-bin
       difftastic
       dive
       duckdb
@@ -25,6 +27,7 @@
       kubernetes-helm
       # leveldb
       monitorcontrol
+      postgresql
       rectangle
       saml2aws
       shellcheck
@@ -39,7 +42,7 @@
     ];
 
     file = {
-      "/Users/jueon/Library/KeyBindings/DefaultKeyBinding.dict".text = ''
+      "Library/KeyBindings/DefaultKeyBinding.dict".text = ''
         {
           "₩" = ("insertText:", "`");
         }
@@ -361,6 +364,7 @@
             "3.11"
             "3.12"
             "3.13"
+            "3.12.10"
           ];
           scala = "2.12.18";
           nodejs = "23.5.0";
@@ -370,8 +374,8 @@
           ];
           poetry = "2.1.1";
           ruby = "2.7.8";
-          rust = "1.84.0";
-          sbt = "1.10.7";
+          rust = "1.88.0";
+          sbt = "1.11.4";
           terraform = [
             "1.11.4"
             "1.12.2"
@@ -448,6 +452,7 @@
               auto_suggestions = true;
             };
             windows = {
+              position = "bottom";
               wrap = true;
               width = 30;
               sidebar_header = {
