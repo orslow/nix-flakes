@@ -27,6 +27,7 @@
       kubernetes-helm
       # leveldb
       monitorcontrol
+      podman
       postgresql
       rectangle
       saml2aws
@@ -47,6 +48,8 @@
           "₩" = ("insertText:", "`");
         }
       '';
+      ".claude/commands/commit.md".source = ./claude/commit.md;
+      ".claude/commands/pr.md".source = ./claude/pr.md;
     };
   };
 
@@ -194,6 +197,13 @@
 
     gh = {
       enable = true;
+      settings = {
+        aliases = {
+          rv = "repo view --web";
+          pv = "pr view --web";
+          pl = "pr list --web";
+        };
+      };
     };
 
     k9s = {
@@ -363,7 +373,7 @@
             "3.10"
             "3.11"
             "3.12"
-            "3.13"
+            # "3.13"
             "3.12.10"
           ];
           scala = "2.12.18";
@@ -488,6 +498,9 @@
         #   enable = true;
         # };
         fugitive = {
+          enable = true;
+        };
+        fzf-lua = {
           enable = true;
         };
         gitblame = {
