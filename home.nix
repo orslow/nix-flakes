@@ -33,6 +33,7 @@
       saml2aws
       shellcheck
       sqlite
+      tree
       unzip
       uv
       vault
@@ -460,6 +461,7 @@
             hints.enabled = true;
             behaviour = {
               auto_suggestions = true;
+              auto_approve_tool_permissions = true;
             };
             windows = {
               position = "bottom";
@@ -480,6 +482,14 @@
               debug = false;
               autojump = true;
               list_opener = "copen";
+            };
+            mappings = {
+              suggestion = {
+                accept = "<Leader><Tab>";
+                # next = "<M-]>";
+                # prev = "<M-[>";
+                # dismiss = "<C-]>";
+              };
             };
           };
         };
@@ -517,29 +527,61 @@
         lualine = {
           enable = true;
           settings = {
-            sections = {
-              lualine_c = [
-                {
-                  __unkeyed-1 = "filename";
-                  newfile_status = true;
-                  path = 1;
-                }
-              ];
-              lualine_x = [
-                "encoding"
-                "filetype"
-              ];
-            };
             options = {
-              theme = "onelight";
-              section_separators = {
-                left = "";
-                right = "";
+              theme = {
+                normal = {
+                  a = { fg = "#ffffff"; bg = "#2d3748"; gui = "bold"; };
+                  b = { fg = "#e2e8f0"; bg = "#4a5568"; };
+                  c = { fg = "#cbd5e0"; bg = "#1a202c"; };
+                };
+                insert = {
+                  a = { fg = "#1a202c"; bg = "#48bb78"; gui = "bold"; };
+                  b = { fg = "#e2e8f0"; bg = "#4a5568"; };
+                  c = { fg = "#cbd5e0"; bg = "#1a202c"; };
+                };
+                visual = {
+                  a = { fg = "#1a202c"; bg = "#ed8936"; gui = "bold"; };
+                  b = { fg = "#e2e8f0"; bg = "#4a5568"; };
+                  c = { fg = "#cbd5e0"; bg = "#1a202c"; };
+                };
+                replace = {
+                  a = { fg = "#ffffff"; bg = "#e53e3e"; gui = "bold"; };
+                  b = { fg = "#e2e8f0"; bg = "#4a5568"; };
+                  c = { fg = "#cbd5e0"; bg = "#1a202c"; };
+                };
+                command = {
+                  a = { fg = "#1a202c"; bg = "#4299e1"; gui = "bold"; };
+                  b = { fg = "#e2e8f0"; bg = "#4a5568"; };
+                  c = { fg = "#cbd5e0"; bg = "#1a202c"; };
+                };
+                # inactive 는 회색/흰색 계열
+                inactive = {
+                  a = { fg = "#4a5568"; bg = "#f7fafc"; };
+                  b = { fg = "#718096"; bg = "#edf2f7"; };
+                  c = { fg = "#a0aec0"; bg = "#e2e8f0"; };
+                };
               };
-              component_separators = {
-                left = "/";
-                right = "/";
-              };
+              globalstatus = false;
+              component_separators = { left = "/"; right = "/"; };
+              section_separators = { left = ""; right = ""; };
+            };
+
+            sections = {
+              lualine_a = [ "mode" ];
+              lualine_b = [ "branch" "diff" "diagnostics" ];
+              lualine_c = [ "filename" ];
+              lualine_x = [ "encoding" "filetype" ];
+              lualine_y = [ "progress" ];
+              lualine_z = [ "location" ];
+            };
+
+            inactive_sections = {
+              lualine_a = [ ];
+              lualine_b = [ ];
+              lualine_c = [ "filename" ];
+              lualine_x = [ "location" ];
+              lualine_y = [ ];
+              lualine_z = [ ];
             };
           };
         };
@@ -726,6 +768,15 @@
           settings = {
             indent = {
               enable = false;
+            };
+            incremental_selection = {
+              enable = true;
+              keymaps = {
+                init_selection = false;
+                node_decremental = "grm";
+                node_incremental = "grn";
+                scope_incremental = "grc";
+              };
             };
             highlight = {
               enable = true;
