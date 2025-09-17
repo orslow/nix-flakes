@@ -9,13 +9,13 @@ Hello Claude! I need you to create a draft pull request for the current branch.
 - **Write all PR content in Korean (한국어로 작성)**
 - Analyze current git status and changes comprehensively
 - Auto-generate meaningful PR title and description
-- Use appropriate emoji prefixes and conventional commit categories
+- Use appropriate conventional commit categories
 - Ensure the branch is up-to-date with main/master before creating PR
 
 ## Language Guidelines (언어 가이드라인)
 - **PR 제목과 본문을 모두 한국어로 작성**
 - 기술적 용어는 영어 그대로 사용해도 됨 (예: API, Database, Component)
-- 존댓말보다는 간결한 서술형 문체 사용
+- 존댓말 대신 간결한 서술형 문체 사용
 - 개발팀이 이해하기 쉬운 명확한 표현 사용
 
 ## Analysis Process
@@ -26,13 +26,13 @@ Hello Claude! I need you to create a draft pull request for the current branch.
    - Verify branch is based on latest main/master
 
 2. **Change Categorization**
-   - 🆕 새로운 기능 (feat)
-   - 🐛 버그 수정 (fix)  
-   - 📚 문서 변경 (docs)
-   - 🎨 코드 스타일 업데이트 (style)
-   - ♻️ 리팩토링 (refactor)
-   - ✅ 테스트 (test)
-   - 🔧 빌드/설정 변경 (chore)
+   - 새로운 기능 (feat)
+   - 버그 수정 (fix)  
+   - 문서 변경 (docs)
+   - 코드 스타일 업데이트 (style)
+   - 리팩토링 (refactor)
+   - 테스트 (test)
+   - 빌드/설정 변경 (chore)
 
 3. **Content Generation**
    - Analyze file changes and commit messages
