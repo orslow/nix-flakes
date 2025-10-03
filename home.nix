@@ -13,6 +13,8 @@
       anki-bin
       appcleaner
       awscli2
+      blueutil
+      bun
       claude-code
       cmake
       databricks-cli
@@ -27,11 +29,14 @@
       kubernetes-helm
       # leveldb
       monitorcontrol
+      packer
       podman
       postgresql
+      raycast
       rectangle
       saml2aws
       shellcheck
+      slack
       sqlite
       tree
       unzip
@@ -91,6 +96,12 @@
           bold = {
             family = "MesloLGS Nerd Font";
             style = "Bold";
+          };
+        };
+        cursor = {
+          style = {
+            shape = "Block";
+            blinking = "Off";
           };
         };
         colors = {
@@ -370,6 +381,14 @@
       enableZshIntegration = true;
       globalConfig = {
         tools = {
+          golang = "1.23.4";
+          istioctl = "1.25.5";
+          java = [
+            "zulu-8.80.0.17"
+          ];
+          lua = "5.4.8";
+          nodejs = "23.5.0";
+          poetry = "2.1.1";
           python = [
             "3.10"
             "3.11"
@@ -377,16 +396,10 @@
             # "3.13"
             "3.12.10"
           ];
-          scala = "2.12.18";
-          nodejs = "23.5.0";
-          golang = "1.23.4";
-          java = [
-            "zulu-8.80.0.17"
-          ];
-          poetry = "2.1.1";
           ruby = "2.7.8";
           rust = "1.88.0";
           sbt = "1.11.4";
+          scala = "2.12.18";
           terraform = [
             "1.11.4"
             "1.12.2"
@@ -453,46 +466,61 @@
       };
   
       plugins = {
-        avante = {
-          enable = true;
-          settings = {
-            provider = "claude";
-            auto_suggestions_provider = "claude";
-            hints.enabled = true;
-            behaviour = {
-              auto_suggestions = true;
-              auto_approve_tool_permissions = true;
-            };
-            windows = {
-              position = "bottom";
-              wrap = true;
-              width = 30;
-              sidebar_header = {
-                align = "center";
-                rounded = true;
-              };
-            };
-            highlights = {
-              diff = {
-                current = "DiffText";
-                incoming = "DiffAdd";
-              };
-            };
-            diff = {
-              debug = false;
-              autojump = true;
-              list_opener = "copen";
-            };
-            mappings = {
-              suggestion = {
-                accept = "<Leader><Tab>";
-                # next = "<M-]>";
-                # prev = "<M-[>";
-                # dismiss = "<C-]>";
-              };
-            };
-          };
-        };
+        # avante = {
+        #   enable = true;
+        #   settings = {
+        #     provider = "claude";
+        #     mode = "legacy";
+        #     auto_suggestions_provider = "claude";
+        #     providers = {
+        #       claude = {
+        #         endpoint = "https://api.anthropic.com";
+        #         disable_tools = false;
+        #         extra_request_body = {
+        #           max_tokens = 20480;
+        #           temperature = 0.3;
+        #         };
+        #         model = "claude-sonnet-4-20250514";
+        #       };
+        #     };
+        #     hints.enabled = true;
+        #     behaviour = {
+        #       auto_suggestions = false;
+        #       minimize_diff = false;
+        #       enable_cursor_planning_mode = true;
+        #       enable_claude_text_editor_tool_mode = true;
+        #       auto_approve_tool_permissions = true;
+        #     };
+        #     windows = {
+        #       position = "bottom";
+        #       wrap = true;
+        #       width = 30;
+        #       sidebar_header = {
+        #         align = "center";
+        #         rounded = true;
+        #       };
+        #     };
+        #     highlights = {
+        #       diff = {
+        #         current = "DiffText";
+        #         incoming = "DiffAdd";
+        #       };
+        #     };
+        #     diff = {
+        #       debug = false;
+        #       autojump = true;
+        #       list_opener = "copen";
+        #     };
+        #     mappings = {
+        #       suggestion = {
+        #         accept = "<C-Tab>";
+        #         # next = "<M-]>";
+        #         # prev = "<M-[>";
+        #         # dismiss = "<C-]>";
+        #       };
+        #     };
+        #   };
+        # };
         copilot-lua = {
           enable = true;
           settings = {
@@ -606,6 +634,25 @@
                 source = "always",
                 prefix = "*",
               },
+            })
+
+            -- focus 잃었을 때와 얻었을 때 이벤트 처리
+            vim.api.nvim_create_autocmd("FocusLost", {
+              pattern = "*",
+              callback = function()
+                -- 커서 숨기기
+                vim.opt.guicursor = "a:hor1-Cursor/lCursor"
+                -- 또는 완전히 투명하게
+                -- vim.opt.guicursor = "a:hor1-Cursor/lCursor-blinkon0"
+              end,
+            })
+
+            vim.api.nvim_create_autocmd("FocusGained", {
+              pattern = "*",
+              callback = function()
+                -- 커서 다시 보이기 (기본 설정으로 복원)
+                vim.opt.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50"
+              end,
             })
           '';
           servers = {
@@ -733,7 +780,7 @@
         telescope = {
           enable = true;
           keymaps = {
-            "<leader>fs" = "live_grep";
+            # "<leader>fs" = "live_grep";
             "<leader>fc" = "grep_string";
             "<leader>fb" = "buffers";
             "<leader>fh" = "help_tags";
@@ -811,15 +858,15 @@
 
       };
 
-      highlightOverride = {
-        AvanteSidebarWinSeparator = {
-          fg = "#000000";
-          bg = "#ffffff";
-        };
-        AvanteToBeDeletedWOStrikethrough = {
-          bg = "#ffcfec";
-        };
-      };
+      # highlightOverride = {
+      #   AvanteSidebarWinSeparator = {
+      #     fg = "#000000";
+      #     bg = "#ffffff";
+      #   };
+      #   AvanteToBeDeletedWOStrikethrough = {
+      #     bg = "#ffcfec";
+      #   };
+      # };
   
       extraPlugins = [
         (pkgs.vimUtils.buildVimPlugin {
@@ -858,6 +905,15 @@
               hash = "sha256-+VPcMn4NuxLRpY1nXz7APaXlRQVZD3Y7SprB/hvNKww=";
           };
         })
+        (pkgs.vimUtils.buildVimPlugin {
+          name = "claude-shuttle";
+          src = pkgs.fetchFromGitHub {
+              owner = "orslow";
+              repo = "claude-shuttle";
+              rev = "660b08a1b7063b4c3523a522d2d2b49e79b67c5d";
+              hash = "sha256-gbaLHj05Y1uCaKu9guVbTZpkaFY1J+1JdFjcWmrz9zI=";
+          };
+        })
       ];
 
       keymaps = [
@@ -886,8 +942,18 @@
         }
 
         # telescope
+        # {
+        #   action = "<cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<cr>";
+        #   key = "<leader>ff";
+        # }
+
+        # fzf-lua
         {
-          action = "<cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<cr>";
+          action = "<cmd>FzfLua live_grep<cr>";
+          key = "<leader>fs";
+        }
+        {
+          action = "<cmd>FzfLua files<cr>";
           key = "<leader>ff";
         }
 
@@ -978,6 +1044,10 @@
         # set-window-option -g window-status-current-style bg=white
         
         set-window-option -g window-status-current-style bg=gray
+
+        # cursor style
+        set -g cursor-style block
+        set -g focus-events on
       '';
     };
 
@@ -1018,11 +1088,11 @@
         export EDITOR=nvim
         export VISUAL=nvim
 
-        # XXX. avante
-        if [ -f ~/.anthropic_api_key ]; then
-            export AVANTE_ANTHROPIC_API_KEY=$(cat ~/.anthropic_api_key)
-            export ANTHROPIC_API_KEY=$(cat ~/.anthropic_api_key)
-        fi
+        # # XXX. avante
+        # if [ -f ~/.anthropic_api_key ]; then
+        #     export AVANTE_ANTHROPIC_API_KEY=$(cat ~/.anthropic_api_key)
+        #     export ANTHROPIC_API_KEY=$(cat ~/.anthropic_api_key)
+        # fi
 
         # XXX. gh
         if [ -f ~/.github_token ]; then

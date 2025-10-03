@@ -97,7 +97,7 @@
           hitoolbox.AppleFnUsageType = "Do Nothing";
 
           dock = {
-            tilesize = 20;
+            tilesize = 18;
             orientation = "bottom";
             autohide = false;
             magnification = true;
