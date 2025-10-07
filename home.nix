@@ -466,61 +466,6 @@
       };
   
       plugins = {
-        # avante = {
-        #   enable = true;
-        #   settings = {
-        #     provider = "claude";
-        #     mode = "legacy";
-        #     auto_suggestions_provider = "claude";
-        #     providers = {
-        #       claude = {
-        #         endpoint = "https://api.anthropic.com";
-        #         disable_tools = false;
-        #         extra_request_body = {
-        #           max_tokens = 20480;
-        #           temperature = 0.3;
-        #         };
-        #         model = "claude-sonnet-4-20250514";
-        #       };
-        #     };
-        #     hints.enabled = true;
-        #     behaviour = {
-        #       auto_suggestions = false;
-        #       minimize_diff = false;
-        #       enable_cursor_planning_mode = true;
-        #       enable_claude_text_editor_tool_mode = true;
-        #       auto_approve_tool_permissions = true;
-        #     };
-        #     windows = {
-        #       position = "bottom";
-        #       wrap = true;
-        #       width = 30;
-        #       sidebar_header = {
-        #         align = "center";
-        #         rounded = true;
-        #       };
-        #     };
-        #     highlights = {
-        #       diff = {
-        #         current = "DiffText";
-        #         incoming = "DiffAdd";
-        #       };
-        #     };
-        #     diff = {
-        #       debug = false;
-        #       autojump = true;
-        #       list_opener = "copen";
-        #     };
-        #     mappings = {
-        #       suggestion = {
-        #         accept = "<C-Tab>";
-        #         # next = "<M-]>";
-        #         # prev = "<M-[>";
-        #         # dismiss = "<C-]>";
-        #       };
-        #     };
-        #   };
-        # };
         copilot-lua = {
           enable = true;
           settings = {
@@ -858,16 +803,6 @@
 
       };
 
-      # highlightOverride = {
-      #   AvanteSidebarWinSeparator = {
-      #     fg = "#000000";
-      #     bg = "#ffffff";
-      #   };
-      #   AvanteToBeDeletedWOStrikethrough = {
-      #     bg = "#ffcfec";
-      #   };
-      # };
-  
       extraPlugins = [
         (pkgs.vimUtils.buildVimPlugin {
           name = "vim-system-copy";
@@ -1087,12 +1022,6 @@
 
         export EDITOR=nvim
         export VISUAL=nvim
-
-        # # XXX. avante
-        # if [ -f ~/.anthropic_api_key ]; then
-        #     export AVANTE_ANTHROPIC_API_KEY=$(cat ~/.anthropic_api_key)
-        #     export ANTHROPIC_API_KEY=$(cat ~/.anthropic_api_key)
-        # fi
 
         # XXX. gh
         if [ -f ~/.github_token ]; then
