@@ -25,6 +25,32 @@ Hello Claude! I need you to commit the currently staged changes in this reposito
   - Follow the format: `prefix: description` or `prefix(scope): description`
   - Include more details in the body if necessary
 
+## Pre-Commit Verification
+1. **Check Staged Files Context and Location**:
+   - Run `git status` and `git diff --cached` to examine all staged changes
+   - Verify each file is in the correct directory for its environment
+   - For multi-environment changes, ensure:
+     - Each environment has its own correctly-named file/directory
+     - Environment-specific values match their respective environments
+     - Configuration structure is consistent across environments
+   - Check for common issues:
+     - Wrong environment values in wrong files
+     - Inconsistent naming conventions
+     - Files in incorrect directory paths
+
+2. **Report Verification Results**:
+   - Summarize file locations and their contexts
+   - Highlight any environment-specific configurations found
+   - Note any potential issues or mismatches
+   - Confirm if changes are appropriate for their locations
+
+3. **Proceed with Commit**:
+   - Only after verification, follow the standard commit workflow:
+     - Review git status for untracked files
+     - Review git diff for all changes
+     - Draft appropriate commit message in Korean
+     - Create commit with proper attribution
+
 ## Branch Strategy
 - **Protected branches**: main, master, develop (and any branch marked as default)
 - **If currently on a protected branch**: 

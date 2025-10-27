@@ -15,4 +15,3 @@
   set spr
   set sb
   ```
-- ₩ to ` 자동화
