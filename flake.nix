@@ -18,14 +18,14 @@
       url = "github:nix-community/nixvim/nixos-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    mac-app-util = {
-      url = "github:hraban/mac-app-util";
-    };
+    # mac-app-util = {
+    #   url = "github:hraban/mac-app-util";
+    # };
 
     agenix.url = "github:ryantm/agenix";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, mac-app-util, agenix }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, agenix }:
   let
     configuration = { pkgs, ... }: {
       # List packages installed in system profile. To search by name, run:
@@ -172,11 +172,11 @@
           home-manager.users.jueon = {
             imports = [
               ./home.nix
-              mac-app-util.homeManagerModules.default
+              # mac-app-util.homeManagerModules.default
             ];
           };
         }
-        mac-app-util.darwinModules.default
+        # mac-app-util.darwinModules.default
         agenix.darwinModules.default
 
       ];
