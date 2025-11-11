@@ -22,6 +22,7 @@
       difftastic
       dive
       duckdb
+      gnumake42
       htop
       jq
       kubectl
@@ -542,7 +543,15 @@
             sections = {
               lualine_a = [ "mode" ];
               lualine_b = [ "branch" "diff" "diagnostics" ];
-              lualine_c = [ "filename" ];
+              lualine_c = [
+                {
+                  __unkeyed-1 = "filename";
+                  newfile_status = true;
+                  file_status = true;
+                  path = 1;  # 0 = just filename, 1 = relative path, 2 = absolute path
+                  shorting_target = 150;
+                }
+              ];
               lualine_x = [ "encoding" "filetype" ];
               lualine_y = [ "progress" ];
               lualine_z = [ "location" ];
@@ -986,10 +995,9 @@
       '';
     };
 
-    z-lua = {
+    zoxide = {
       enable = true;
       enableZshIntegration = true;
-      enableAliases = true;
     };
 
     zsh = {
