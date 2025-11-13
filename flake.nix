@@ -128,6 +128,7 @@
             NSAutomaticPeriodSubstitutionEnabled = false;
             NSAutomaticQuoteSubstitutionEnabled = false;
             NSAutomaticSpellingCorrectionEnabled = false;
+            "com.apple.trackpad.scaling" = 2.0;
           };
 
           SoftwareUpdate = {

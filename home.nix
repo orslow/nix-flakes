@@ -16,7 +16,6 @@
       blueutil
       bun
       claude-code
-      cmake
       databricks-cli
       dbeaver-bin
       difftastic
@@ -387,7 +386,6 @@
           java = [
             "zulu-8.80.0.17"
           ];
-          lua = "5.4.8";
           nodejs = "23.5.0";
           poetry = "2.1.1";
           python = [
@@ -397,7 +395,7 @@
             # "3.13"
             "3.12.10"
           ];
-          ruby = "2.7.8";
+          ruby = "3.1.7";  # (25/11/12) 3.4.x not works
           rust = "1.88.0";
           sbt = "1.11.4";
           scala = "2.12.18";
@@ -471,10 +469,10 @@
           enable = true;
           settings = {
             panel = {
-              enabled = false;
+              enabled = true;
             };
             suggestion = {
-              enabled = false;
+              enabled = true;
             };
           };
         };
@@ -549,7 +547,7 @@
                   newfile_status = true;
                   file_status = true;
                   path = 1;  # 0 = just filename, 1 = relative path, 2 = absolute path
-                  shorting_target = 150;
+                  # shorting_target = 150;
                 }
               ];
               lualine_x = [ "encoding" "filetype" ];

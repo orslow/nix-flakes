@@ -14,7 +14,9 @@
   set scs
   set spr
   set sb
+  set ai
   ```
+- apple developer tools
 - k8s contexts
 - ssh key
 - apps from store (snap, be focused, wireguard)
