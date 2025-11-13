@@ -1,6 +1,6 @@
 # nix-flakes
 
-## TODO
+## 메모
 - ~/.vimrc, ~/.ideavimrc
   ```
   set sol
@@ -15,3 +15,9 @@
   set spr
   set sb
   ```
+- k8s contexts
+- ssh key
+- apps from store (snap, be focused, wireguard)
+- sable, montag
+- karabiner(?)
+- macvim
