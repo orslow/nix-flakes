@@ -387,7 +387,6 @@
             "zulu-8.80.0.17"
           ];
           nodejs = "23.5.0";
-          poetry = "2.1.1";
           python = [
             "3.10"
             "3.11"
@@ -915,6 +914,14 @@
           key = "<leader>z";
         }
       ];
+    };
+
+    poetry = {
+      enable = true;
+      settings = {
+        virtualenvs.create = true;
+        virtualenvs.in-project = true;
+      };
     };
 
     ripgrep = {
