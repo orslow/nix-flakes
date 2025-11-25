@@ -130,7 +130,7 @@
             NSAutomaticQuoteSubstitutionEnabled = false;
             NSAutomaticSpellingCorrectionEnabled = false;
             AppleSpacesSwitchOnActivate = false;
-            "com.apple.trackpad.scaling" = 2.0;
+            "com.apple.trackpad.scaling" = 1.8;
           };
 
           SoftwareUpdate = {

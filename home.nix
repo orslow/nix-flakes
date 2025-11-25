@@ -715,7 +715,7 @@
             };
             view = {
               # adaptive_size = true;
-              width = "15%";
+              width = "13%";
               side = "left";
             };
             update_focused_file = {
@@ -778,7 +778,7 @@
               };
             };
             highlight = {
-              enable = true;
+              enable = false;
             };
           };
         };
@@ -1036,6 +1036,9 @@
 
         export EDITOR=nvim
         export VISUAL=nvim
+
+        # fn+delete
+        bindkey "\e[3~" delete-char
 
         # XXX. gh
         if [ -f ~/.github_token ]; then
