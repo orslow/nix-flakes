@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, pkgs-unstable, ... }: {
   # imports = [
   #   ./configs
   # ];
@@ -15,7 +15,6 @@
       awscli2
       blueutil
       bun
-      claude-code
       databricks-cli
       dbeaver-bin
       difftastic
@@ -46,7 +45,9 @@
       wget
       yq-go
       zip
-    ];
+    ] ++ (with pkgs-unstable; [
+      claude-code
+    ]);
 
     file = {
       "Library/KeyBindings/DefaultKeyBinding.dict".text = ''
