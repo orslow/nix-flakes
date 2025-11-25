@@ -19,7 +19,7 @@
 - apple developer tools
 - k8s contexts
 - ssh key
-- apps from store (snap, be focused, wireguard)
+- apps from store (snap, be focused, wireguard, kakaotalk)
 - sable, montag
 - karabiner(?)
 - macvim
