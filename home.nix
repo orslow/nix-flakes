@@ -147,6 +147,10 @@
       enableZshIntegration = true;
     };
 
+    firefox = {
+      enable = true;
+    };
+
     fzf = {
       enable = true;
       enableZshIntegration = true;
@@ -396,7 +400,7 @@
             "3.12.10"
           ];
           ruby = "3.1.7";  # (25/11/12) 3.4.x not works
-          rust = "1.88.0";
+          rust = "1.91.0";
           sbt = "1.11.4";
           scala = "2.12.18";
           terraform = [

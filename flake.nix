@@ -107,7 +107,8 @@
             show-recents = false;
             persistent-apps = [
               "/System/Cryptexes/App/System/Applications/Safari.app"
-              "Applications/Firefox.app"
+              # "Applications/Firefox.app"
+              "/nix/store/3738cddylymymrp3kpfaz41768ld8ilz-firefox-145.0.1/Applications/Firefox.app"
               "/System/Applications/Music.app"
               "/System/Applications/Notes.app"
               "/System/Applications/Reminders.app"
