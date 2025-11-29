@@ -424,9 +424,30 @@
         loaded_netrwPlugin = 1;
       };
 
-      colorscheme = "macvim-light";
+      autoCmd = [
+        {
+          event = "FocusLost";
+          pattern = "*";
+          callback.__raw = ''
+            function()
+              vim.opt.guicursor = "a:hor1-Cursor/lCursor"
+            end
+          '';
+        }
+        {
+          event = "FocusGained";
+          pattern = "*";
+          callback.__raw = ''
+            function()
+              vim.opt.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50"
+            end
+          '';
+        }
+      ];
+
+      # colorscheme = "macvim-light";
       # colorscheme = "lunaperche";
-      # colorscheme = "github_light_high_contrast";
+      colorscheme = "github_light_high_contrast";
   
       opts = {
         startofline = true;
@@ -483,11 +504,20 @@
         # copilot-cmp = {
         #   enable = true;
         # };
+        fidget = {
+          enable = true;
+        };
         fugitive = {
           enable = true;
         };
         fzf-lua = {
           enable = true;
+          keymaps = {
+            "<Leader>fs" = "live_grep";
+            "<Leader>ff" = "files";
+            "gr" = "lsp_references";
+            "gd" = "lsp_definitions";
+          };
         };
         gitblame = {
           enable = true;
@@ -569,16 +599,7 @@
             };
           };
         };
-        lsp-format = {
-          enable = true;
-          settings = {
-            typescript = {
-              exclude = [
-                "ts_ls"
-              ];
-            };
-          };
-        };
+
         lsp = {
           enable = true;
           onAttach = ''
@@ -590,25 +611,6 @@
                 source = "always",
                 prefix = "*",
               },
-            })
-
-            -- focus 잃었을 때와 얻었을 때 이벤트 처리
-            vim.api.nvim_create_autocmd("FocusLost", {
-              pattern = "*",
-              callback = function()
-                -- 커서 숨기기
-                vim.opt.guicursor = "a:hor1-Cursor/lCursor"
-                -- 또는 완전히 투명하게
-                -- vim.opt.guicursor = "a:hor1-Cursor/lCursor-blinkon0"
-              end,
-            })
-
-            vim.api.nvim_create_autocmd("FocusGained", {
-              pattern = "*",
-              callback = function()
-                -- 커서 다시 보이기 (기본 설정으로 복원)
-                vim.opt.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50"
-              end,
             })
           '';
           servers = {
@@ -632,8 +634,9 @@
             };
             rust_analyzer = {
               enable = true;
-              installCargo = false;
-              installRustc = false;
+              installCargo = true;
+              installRustc = true;
+              installRustfmt = true;
             };
             terraformls = {
               enable = true;
@@ -652,26 +655,26 @@
           };
           keymaps = {
             lspBuf = {
-              gd = {
-                action = "definition";
-                desc = "Goto Definition";
-              };
-              gr = {
-                action = "references";
-                desc = "Goto References";
-              };
-              gD = {
-                action = "declaration";
-                desc = "Goto Declaration";
-              };
-              gI = {
-                action = "implementation";
-                desc = "Goto Implementation";
-              };
-              gT = {
-                action = "type_definition";
-                desc = "Type Definition";
-              };
+              # gd = {
+              #   action = "definition";
+              #   desc = "Goto Definition";
+              # };
+              # gr = {
+              #   action = "references";
+              #   desc = "Goto References";
+              # };
+              # gD = {
+              #   action = "declaration";
+              #   desc = "Goto Declaration";
+              # };
+              # gI = {
+              #   action = "implementation";
+              #   desc = "Goto Implementation";
+              # };
+              # gT = {
+              #   action = "type_definition";
+              #   desc = "Type Definition";
+              # };
               "<leader>cr" = {
                 action = "rename";
                 desc = "Rename";
@@ -733,16 +736,6 @@
           enable = true;
         };
   
-        telescope = {
-          enable = true;
-          keymaps = {
-            # "<leader>fs" = "live_grep";
-            "<leader>fc" = "grep_string";
-            "<leader>fb" = "buffers";
-            "<leader>fh" = "help_tags";
-          };
-        };
-        
         treesitter = {
           enable = true;
 
@@ -751,11 +744,8 @@
             lua
             make
             markdown
-            nix
+            # nix
             regex
-            vim
-            vimdoc
-            xml
             json
             yaml
             toml
@@ -766,11 +756,12 @@
             go
             terraform
             typescript
+            rust
           ];
   
           settings = {
             indent = {
-              enable = false;
+              enable = true;
             };
             incremental_selection = {
               enable = true;
@@ -782,9 +773,12 @@
               };
             };
             highlight = {
-              enable = false;
+              enable = true;
             };
           };
+        };
+        treesitter-context = {
+          enable = true;
         };
         
         cmp = {
@@ -885,22 +879,6 @@
         {
           action = "<cmd>GitBlameOpenFileURL<cr>";
           key = "<leader>blof";
-        }
-
-        # telescope
-        # {
-        #   action = "<cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<cr>";
-        #   key = "<leader>ff";
-        # }
-
-        # fzf-lua
-        {
-          action = "<cmd>FzfLua live_grep<cr>";
-          key = "<leader>fs";
-        }
-        {
-          action = "<cmd>FzfLua files<cr>";
-          key = "<leader>ff";
         }
 
         # nvim-tree
