@@ -6,7 +6,7 @@
   xdg.enable = true;
 
   home = {
-    stateVersion = "25.05";
+    stateVersion = "25.11";
 
     packages = with pkgs; [
       nerd-fonts.meslo-lg
