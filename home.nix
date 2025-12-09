@@ -158,14 +158,51 @@
 
     git = {
       enable = true;
-      userEmail = "juuueon@gmail.com";
-      userName = "Jueon Park";
+      settings = {
+        user = {
+          name = "Jueon Park";
+          email = "juuueon@gmail.com";
+        };
+        alias = {
+          a = "add";
+          aa = "add --all";
+          ap = "add --patch";
+          b = "branch";
+          c = "commit -v";
+          ca = "commit --amend";
+          cane = "commit --amend --no-edit";
+          co = "checkout";
+          cob = "checkout -b";
+          cp = "cherry-pick";
+          d = "diff";
+          f = "fetch";
+          l = "log";
+          lg = "log --graph --abbrev-commit --decorate --date=short --format=format:'%C(bold blue)%h%C(reset) - %C(bold black)(%ad)%C(reset) %C(red)%s%C(reset) %C(black)- %an%C(reset)%C(blue)%d%C(reset)' --all";
+          lgpt = "log --pretty=format:'%h %s' --graph";
+          lo = "log --oneline";
+          lol = "log --graph --decorate --pretty=oneline --abbrev-commit";
+          lola = "log --graph --decorate --pretty=oneline --abbrev-commit --all";
+          pl = "pull";
+          pr = "pull --rebase";
+          publish = "!f() { git push --set-upstream \${1:-origin} $(git rev-parse --abbrev-ref HEAD); }; f";
+          s = "status";
+          ss = "status --short";
+          ssb = "status --short --branch";
+          sw = "switch";
+          swc = "switch -c";
+        };
+        core = {
+          editor = "nvim";
+        };
+      };
       ignores = [
         ".DS_Store"
         ".env"
         ".envrc"
         ".idea"
-        ".metals"
+        "**/metals.sbt"
+        "**/.metals/"
+        ".bloop/"
         ".mise.toml"
         ".terraform.lock.hcl"
         ".tool-versions"
@@ -177,39 +214,6 @@
         "venv"
         ".claude/"
       ];
-      aliases = {
-        a = "add";
-        aa = "add --all";
-        ap = "add --patch";
-        b = "branch";
-        c = "commit -v";
-        ca = "commit --amend";
-        cane = "commit --amend --no-edit";
-        co = "checkout";
-        cob = "checkout -b";
-        cp = "cherry-pick";
-        d = "diff";
-        f = "fetch";
-        l = "log";
-        lg = "log --graph --abbrev-commit --decorate --date=short --format=format:'%C(bold blue)%h%C(reset) - %C(bold black)(%ad)%C(reset) %C(red)%s%C(reset) %C(black)- %an%C(reset)%C(blue)%d%C(reset)' --all";
-        lgpt = "log --pretty=format:'%h %s' --graph";
-        lo = "log --oneline";
-        lol = "log --graph --decorate --pretty=oneline --abbrev-commit";
-        lola = "log --graph --decorate --pretty=oneline --abbrev-commit --all";
-        pl = "pull";
-        pr = "pull --rebase";
-        publish = "!f() { git push --set-upstream \${1:-origin} $(git rev-parse --abbrev-ref HEAD); }; f";
-        s = "status";
-        ss = "status --short";
-        ssb = "status --short --branch";
-        sw = "switch";
-        swc = "switch -c";
-      };
-      extraConfig = {
-        core = {
-          editor = "nvim";
-        };
-      };
     };
 
     gh = {
@@ -241,39 +245,37 @@
         };
       };
       views = {
-          views = {
-            # "v1/pods" = {
-            #   columns = [
-            #     "AGE"
-            #     "NAMESPACE"
-            #     "NAME"
-            #     "IP"
-            #     "NODE"
-            #     "STATUS"
-            #     "READY"
-            #   ];
-            # };
-            "v1/nodes" = {
-              sortColumn = "AGE:asc";
-              columns = [
-                "NAME"
-                "STATUS"
-                "TAINTS"
-                "PODS"
-                "CPU"
-                "MEM"
-                "%CPU"
-                "%MEM"
-                "CPU/A"
-                "MEM/A"
-                "VERSION"
-                "AGE"
-                "INSTANCE_TYPE:.metadata.labels.node\\.kubernetes\\.io/instance-type"
-                "NODEPOOL:.metadata.labels.karpenter\\.sh/nodepool"
-                "AZ:.metadata.labels.topology\\.kubernetes\\.io/zone"
-              ];
-            };
-          };
+        # "v1/pods" = {
+        #   columns = [
+        #     "AGE"
+        #     "NAMESPACE"
+        #     "NAME"
+        #     "IP"
+        #     "NODE"
+        #     "STATUS"
+        #     "READY"
+        #   ];
+        # };
+        "v1/nodes" = {
+          sortColumn = "AGE:asc";
+          columns = [
+            "NAME"
+            "STATUS"
+            "TAINTS"
+            "PODS"
+            "CPU"
+            "MEM"
+            "%CPU"
+            "%MEM"
+            "CPU/A"
+            "MEM/A"
+            "VERSION"
+            "AGE"
+            "INSTANCE_TYPE:.metadata.labels.node\\.kubernetes\\.io/instance-type"
+            "NODEPOOL:.metadata.labels.karpenter\\.sh/nodepool"
+            "AZ:.metadata.labels.topology\\.kubernetes\\.io/zone"
+          ];
+        };
       };
       skins = {
         light = {
@@ -396,8 +398,8 @@
             "3.10"
             "3.11"
             "3.12"
-            # "3.13"
             "3.12.10"
+            "3.13.9"
           ];
           ruby = "3.1.7";  # (25/11/12) 3.4.x not works
           rust = "1.91.0";
@@ -446,8 +448,8 @@
       ];
 
       # colorscheme = "macvim-light";
-      # colorscheme = "lunaperche";
-      colorscheme = "github_light_high_contrast";
+      colorscheme = "lunaperche";
+      # colorscheme = "github_light_high_contrast";
   
       opts = {
         startofline = true;
@@ -501,9 +503,28 @@
             };
           };
         };
+        copilot-lsp = {
+          enable = true;
+        };
         # copilot-cmp = {
         #   enable = true;
         # };
+        conform-nvim = {
+          enable = true;
+          settings = {
+            formatters_by_ft = {
+              terraform = [
+                "terraform_fmt"
+              ];
+            };
+            default_format_opts = {
+              lsp_format = "fallback";
+            };
+            format_on_save = {
+              lsp_format = "fallback";
+            };
+          };
+        };
         fidget = {
           enable = true;
         };
@@ -514,6 +535,7 @@
           enable = true;
           keymaps = {
             "<Leader>fs" = "live_grep";
+            "<Leader>fc" = "grep_cword";
             "<Leader>ff" = "files";
             "gr" = "lsp_references";
             "gd" = "lsp_definitions";
@@ -648,10 +670,10 @@
               enable = false;  # disable for helm
             };
             # just use idea
-            # metals = {
-            #   enable = true;
-            #   filetypes = ["scala" "sbt"];
-            # };
+            metals = {
+              enable = true;
+              filetypes = ["scala" "sbt"];
+            };
           };
           keymaps = {
             lspBuf = {
@@ -692,11 +714,12 @@
   
         nvim-tree = {
           enable = true;
-          hijackCursor = true;
-          modified = {
-            enable = true;
-          };
-          extraOptions = {
+          settings = {
+            sync_root_with_cwd = false;
+            respect_buf_cwd = false;
+
+            modified.enable = true;
+            hijack_cursor = true;
             renderer = {
               full_name = true;
               indent_markers = {
@@ -746,7 +769,7 @@
             markdown
             # nix
             regex
-            json
+            # json
             yaml
             toml
             c
@@ -1001,6 +1024,7 @@
         k9s = "k9s --readonly=true";
         k9sw = "k9s --readonly=false";
         claude = "claude --dangerously-skip-permissions";
+        cl = "claude --dangerously-skip-permissions";
       };
       history = {
         ignoreDups = false;

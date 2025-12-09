@@ -16,8 +16,6 @@
     };
 
     nixvim = {
-      # url = "github:nix-community/nixvim/nixos-25.05";
-      # inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/nixvim/main";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
@@ -151,6 +149,10 @@
             Show24Hour = true;
             ShowSeconds = true;
           };
+
+          WindowManager = {
+            EnableStandardClickToShowDesktop = false;
+          };
         };
 
         keyboard = {
@@ -170,7 +172,7 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.sharedModules = [
-            nixvim.homeManagerModules.nixvim
+            nixvim.homeModules.nixvim
           ];
           users.users.jueon = {
             home = "/Users/jueon";
