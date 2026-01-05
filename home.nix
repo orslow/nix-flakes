@@ -31,6 +31,7 @@
       packer
       podman
       postgresql
+      protobuf
       raycast
       rectangle
       saml2aws
@@ -89,7 +90,7 @@
           TERM = "xterm-256color";
         };
         font = {
-          size = 11;
+          size = 13;
           normal = {
             family = "MesloLGS Nerd Font";
             style = "Regular";
@@ -271,6 +272,7 @@
             "MEM/A"
             "VERSION"
             "AGE"
+            "CREATION_TIME:.metadata.creationTimestamp"
             "INSTANCE_TYPE:.metadata.labels.node\\.kubernetes\\.io/instance-type"
             "NODEPOOL:.metadata.labels.karpenter\\.sh/nodepool"
             "AZ:.metadata.labels.topology\\.kubernetes\\.io/zone"
@@ -395,11 +397,10 @@
           ];
           nodejs = "23.5.0";
           python = [
-            "3.10"
-            "3.11"
-            "3.12"
+            "3.13.11"
             "3.12.10"
-            "3.13.9"
+            "3.11"
+            "3.10"
           ];
           ruby = "3.1.7";  # (25/11/12) 3.4.x not works
           rust = "1.91.0";
@@ -447,9 +448,10 @@
         }
       ];
 
-      # colorscheme = "macvim-light";
-      colorscheme = "lunaperche";
+      colorscheme = "macvim-light";
+      # colorscheme = "lunaperche";
       # colorscheme = "github_light_high_contrast";
+      # colorscheme = "modus";
   
       opts = {
         startofline = true;
@@ -482,7 +484,7 @@
         # };
         # base16 = {
         #   enable = true;
-        #   colorscheme = "google-light";
+        #   colorscheme = "tokyo-city-light";
         #   setUpBar = false;
         #   settings = {
         #     telescope = true;
@@ -654,6 +656,9 @@
             pyright = {
               enable = true;
             };
+            # ty = {
+            #   enable = true;
+            # };
             rust_analyzer = {
               enable = true;
               installCargo = true;
@@ -855,8 +860,8 @@
           src = pkgs.fetchFromGitHub {
               owner = "orslow";
               repo = "macvim-light";
-              rev = "31467ca33c56a16691cca4c3b52c263948a9c954";
-              hash = "sha256-X9mG5uR+WfcJN6wFb+579O98CttfCr9rWsPP1Po0kDc=";
+              rev = "9e0123c82d29d0d1387bff1bc9c644f6e57aeb7c";
+              hash = "sha256-Xlr9c91vUzYbfE6dF+HuHDPWxl6Bzo/3Sf3FaAxv900=";
           };
         })
         (pkgs.vimUtils.buildVimPlugin {
@@ -877,9 +882,22 @@
               hash = "sha256-gbaLHj05Y1uCaKu9guVbTZpkaFY1J+1JdFjcWmrz9zI=";
           };
         })
+        (pkgs.vimUtils.buildVimPlugin {
+          name = "shirotelin";
+          src = pkgs.fetchFromGitHub {
+              owner = "yasukotelin";
+              repo = "shirotelin";
+              rev = "c486f6f1c88acb585859b8d96dd68eafeb14bbd3";
+              hash = "sha256-LkMJNIjkpOV4kBnn4XOzipA9DMtaYYwLpL5zcYK2LgE=";
+          };
+        })
       ];
 
       keymaps = [
+        {
+          action = "<cmd>nohlsearch<cr>";
+          key = "<leader><leader>";
+        }
         # file path copy
         {
           action = "<cmd>let @+ = expand('%')<cr>";
