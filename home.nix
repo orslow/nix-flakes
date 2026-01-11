@@ -47,6 +47,7 @@
       yq-go
       zip
     ] ++ (with pkgs-unstable; [
+      brave
       claude-code
     ]);
 
@@ -56,6 +57,7 @@
           "₩" = ("insertText:", "`");
         }
       '';
+      ".claude/CLAUDE.md".source = ./claude/CLAUDE.md;
       ".claude/commands/commit.md".source = ./claude/commit.md;
       ".claude/commands/pr.md".source = ./claude/pr.md;
     };
@@ -451,7 +453,6 @@
       colorscheme = "macvim-light";
       # colorscheme = "lunaperche";
       # colorscheme = "github_light_high_contrast";
-      # colorscheme = "modus";
   
       opts = {
         startofline = true;
@@ -860,8 +861,8 @@
           src = pkgs.fetchFromGitHub {
               owner = "orslow";
               repo = "macvim-light";
-              rev = "9e0123c82d29d0d1387bff1bc9c644f6e57aeb7c";
-              hash = "sha256-Xlr9c91vUzYbfE6dF+HuHDPWxl6Bzo/3Sf3FaAxv900=";
+              rev = "95184a7fb2953019beb82b797637da1f3965ae09";
+              hash = "sha256-6dsqbxMa7Y4lAmERKqzxKhNWdvrh2YwD8GpulWPgn04=";
           };
         })
         (pkgs.vimUtils.buildVimPlugin {
