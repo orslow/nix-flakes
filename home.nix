@@ -46,9 +46,11 @@
       wget
       yq-go
       zip
+      zstd
     ] ++ (with pkgs-unstable; [
       brave
       claude-code
+      firefox
     ]);
 
     file = {
@@ -150,9 +152,9 @@
       enableZshIntegration = true;
     };
 
-    firefox = {
-      enable = true;
-    };
+    # firefox = {
+    #   enable = true;
+    # };
 
     fzf = {
       enable = true;
@@ -171,6 +173,7 @@
           aa = "add --all";
           ap = "add --patch";
           b = "branch";
+          bb = "branch --sort=-committerdate --format='%(HEAD) %(color:bold blue)%(refname:short)%(color:reset) - %(color:green)%(committerdate:relative)%(color:reset) - %(contents:subject)'";
           c = "commit -v";
           ca = "commit --amend";
           cane = "commit --amend --no-edit";
@@ -392,7 +395,10 @@
       enableZshIntegration = true;
       globalConfig = {
         tools = {
-          golang = "1.23.4";
+          golang = [
+            "1.24.2"
+            "1.23.4"
+          ];
           istioctl = "1.25.5";
           java = [
             "zulu-8.80.0.17"
@@ -411,6 +417,8 @@
           terraform = [
             "1.11.4"
             "1.12.2"
+            "1.13.5"
+            "1.14.3"
           ];
         };
         settings = {
@@ -542,6 +550,7 @@
             "<Leader>ff" = "files";
             "gr" = "lsp_references";
             "gd" = "lsp_definitions";
+            "gi" = "lsp_implementations";
           };
         };
         gitblame = {
@@ -755,8 +764,8 @@
               side = "left";
             };
             update_focused_file = {
-              enable = true;
-              update_root = true;
+              enable = false;
+              # update_root = true;
             };
           };
         };
