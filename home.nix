@@ -28,6 +28,8 @@
       kubernetes-helm
       # leveldb
       monitorcontrol
+      mysql84
+      notion-app
       packer
       podman
       postgresql
@@ -764,8 +766,8 @@
               side = "left";
             };
             update_focused_file = {
-              enable = false;
-              # update_root = true;
+              enable = true;
+              update_root = false;
             };
           };
         };
@@ -888,8 +890,8 @@
           src = pkgs.fetchFromGitHub {
               owner = "orslow";
               repo = "claude-shuttle";
-              rev = "660b08a1b7063b4c3523a522d2d2b49e79b67c5d";
-              hash = "sha256-gbaLHj05Y1uCaKu9guVbTZpkaFY1J+1JdFjcWmrz9zI=";
+              rev = "520a7b5281628c8b8a2611b1b73b501c75bda644";
+              hash = "sha256-q7e9ddgQWA78nuct1nYHXziRv6NI3fYbmJNHCWkfWu0=";
           };
         })
         (pkgs.vimUtils.buildVimPlugin {
