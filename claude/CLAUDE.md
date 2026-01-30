@@ -22,4 +22,4 @@
 - 가상환경 생성: `uv venv`
 - 스크립트 실행: `uv run python script.py`
 - `pip`이나 `python -m venv` 직접 사용 금지
-- push 전 변경된 .py 파일 대상으로 `uv tool run ruff check --fix` 실행 필수
+- commit 전 변경된 .py 파일 대상으로 `uv tool run ruff check --fix` 실행 필수
