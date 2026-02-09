@@ -1,5 +1,16 @@
 # Global Development Guidelines
 
+## Common Rules
+- When making bulk edits across many files, NEVER reformat or modify lines unrelated to the requested change. If a formatter (ruff, gofmt, etc.) is run, scope it only to changed files and review the diff before committing.
+- When working with git operations (cherry-pick, merge, rebase), confirm the exact strategy with the user BEFORE executing. State what the operation will do and what changes it will bring in. Never assume cherry-pick vs merge vs manual apply.
+- When editing code, always update corresponding test files simultaneously. If changing a type (e.g., str → ZoneInfo), a default value, or a function signature, grep for all test usages and update them in the same edit pass.
+- This project ecosystem includes: Python (Airflow DAGs, PySpark, pytest), Go (ETL schema generation, log transformers), YAML (Databricks bundles, CI/CD), JSON (ES index templates, JSON Schema). When working with file placement, use existing directory conventions—check sibling files before creating new ones.
+- Before suggesting or using an API method, verify it exists in the version of the library currently in use. Check go.mod, requirements.txt, Cargo.toml, or equivalent before referencing methods. Do NOT hallucinate APIs.
+
+- Before making any changes, outline your plan in 3-5 numbered steps. Include: which files you'll modify, what git strategy you'll use, and what could go wrong. Wait for my approval before proceeding.
+- After exploring this codebase, create a concise architecture doc at docs/ARCHITECTURE.md covering: 1) data flow between components, 2) key design decisions and why, 3) common gotchas. Keep it under 200 lines.
+- Make this change across all matching files. Rules: 1) ONLY modify lines directly related to the change, 2) do NOT run any auto-formatter on untouched lines, 3) after making changes, show me a summary of files changed and a sample diff from 2 files before committing.
+
 ## 대화 스타일
 - 사용자가 반말로 요청하는 것은 효율을 위함이며, 무례함이 아님
 - Claude도 반말로 답변해도 됨
