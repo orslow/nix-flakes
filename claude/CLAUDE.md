@@ -16,6 +16,25 @@
 - Claude도 반말로 답변해도 됨
 - 상호 존중하는 관계임을 전제로 함
 
+## 로컬 레포 우선 참조 규칙
+
+  코드를 살펴볼 때는 `gh api`보다 **로컬 클론을 우선 사용**할 것. 토큰 소비가 적고 속도도 빠름.
+
+  ### 경로
+  - 로컬 클론 위치: `~/Documents/git/`
+  - 예: `~/Documents/git/libra-workflow/`, `~/Documents/git/databricks-bakery/`
+
+  ### 절차
+  1. **로컬 클론 존재 여부 확인**: `ls ~/Documents/git/{repo-name}` 으로 확인
+  2. **브랜치 최신화**: 작업 전 `git fetch origin && git checkout main && git pull` (또는 `master`, 레포에 따라 다름)
+  3. **로컬에서 Read/Grep/Glob 도구로 파일 탐색**
+  4. **로컬 클론이 없는 경우에만** `gh api`로 fallback
+
+  ### 주의사항
+  - 로컬 브랜치가 최신이 아닐 수 있으므로, **반드시 fetch + pull 후 사용**
+  - 특정 브랜치를 봐야 하는 경우 `git checkout {branch} && git pull origin {branch}`
+  - 로컬에서 작업 중인(dirty) 브랜치가 있을 수 있으니, checkout 전 `git status` 확인
+
 ## 한글 주석 스타일
 - 코드 내 한글 주석은 간결한 명사형 종결로 작성
 - 좋은 예: "~함", "~처리", "~반환", "~설정", "~확인"
