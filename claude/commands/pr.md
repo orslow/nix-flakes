@@ -2,10 +2,16 @@
 allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git branch:*), Bash(git log:*), Bash(gh pr create:*)
 description: Create a draft pull request with auto-generated content based on git analysis
 ---
-Hello Claude! I need you to create a draft pull request for the current branch.
+Hello Claude! I need you to create a **draft** pull request for the current branch.
+
+## ⚠️ CRITICAL CONSTRAINT — MUST READ FIRST
+- **PR은 반드시 Draft 모드로 생성해야 함. 예외 없음.**
+- `gh pr create` 실행 시 반드시 `--draft` 플래그를 포함할 것.
+- `--draft` 플래그 없이 `gh pr create`를 실행하는 것은 **절대 금지**.
+- Draft가 아닌 일반 PR이 생성되면 리뷰어에게 즉시 알림이 가서 혼란을 유발함.
 
 ## Requirements
-- **Always create PRs in draft mode**
+- **반드시 `--draft` 플래그와 함께 PR 생성 (NON-NEGOTIABLE)**
 - **Write all PR content in Korean (한국어로 작성)**
 - Analyze current git status and changes comprehensively
 - Auto-generate meaningful PR title and description
@@ -74,3 +80,17 @@ Use this Korean structure for the pull request body:
 ## 관련 이슈
 [커밋 메시지에서 이슈 번호 추출 (있는 경우)]
 Closes #issue-number
+```
+
+## Execution (실행)
+**반드시 아래 형식으로 실행할 것. `--draft` 누락 금지.**
+
+```bash
+gh pr create --draft --title "PR 제목" --body "$(cat <<'EOF'
+... PR 본문 ...
+EOF
+)"
+```
+
+- `--draft` 플래그가 빠진 `gh pr create` 명령은 실행하지 말 것.
+- 만약 `--draft` 없이 실행하려는 자신을 발견하면, 즉시 멈추고 `--draft`를 추가할 것.
