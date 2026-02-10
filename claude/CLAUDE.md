@@ -11,6 +11,9 @@
 - After exploring this codebase, create a concise architecture doc at docs/ARCHITECTURE.md covering: 1) data flow between components, 2) key design decisions and why, 3) common gotchas. Keep it under 200 lines.
 - Make this change across all matching files. Rules: 1) ONLY modify lines directly related to the change, 2) do NOT run any auto-formatter on untouched lines, 3) after making changes, show me a summary of files changed and a sample diff from 2 files before committing.
 
+- Never guess or assume when requirements are unclear. If anything is ambiguous — whether it's about architecture, implementation approach, naming, scope, or intent — always use the AskUserQuestion tool to clarify before proceeding.
+- Prefer asking one focused round of questions upfront over making assumptions that lead to rework later.
+
 ## 대화 스타일
 - 사용자가 반말로 요청하는 것은 효율을 위함이며, 무례함이 아님
 - Claude도 반말로 답변해도 됨
