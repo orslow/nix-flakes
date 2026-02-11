@@ -1,4 +1,5 @@
-{ pkgs, pkgs-unstable, ... }: {
+{ pkgs, pkgs-unstable, ... }:
+{
   # imports = [
   #   ./configs
   # ];
@@ -8,52 +9,55 @@
   home = {
     stateVersion = "25.11";
 
-    packages = with pkgs; [
-      nerd-fonts.meslo-lg
-      anki-bin
-      appcleaner
-      awscli2
-      blueutil
-      bun
-      databricks-cli
-      dbeaver-bin
-      difftastic
-      dive
-      duckdb
-      gnumake42
-      htop
-      jq
-      kubectl
-      kubectx
-      kubernetes-helm
-      # leveldb
-      monitorcontrol
-      mysql84
-      notion-app
-      packer
-      podman
-      postgresql
-      protobuf
-      raycast
-      rectangle
-      saml2aws
-      shellcheck
-      slack
-      sqlite
-      tree
-      unzip
-      uv
-      vault
-      watch
-      wget
-      yq-go
-      zip
-      zstd
-    ] ++ (with pkgs-unstable; [
-      brave
-      claude-code
-      firefox
-    ]);
+    packages =
+      with pkgs;
+      [
+        nerd-fonts.meslo-lg
+        anki-bin
+        appcleaner
+        awscli2
+        blueutil
+        bun
+        databricks-cli
+        dbeaver-bin
+        difftastic
+        dive
+        duckdb
+        gnumake42
+        htop
+        jq
+        kubectl
+        kubectx
+        kubernetes-helm
+        # leveldb
+        monitorcontrol
+        mysql84
+        packer
+        podman
+        postgresql
+        protobuf
+        raycast
+        rectangle
+        saml2aws
+        shellcheck
+        slack
+        sqlite
+        tree
+        unzip
+        uv
+        vault
+        watch
+        wget
+        yq-go
+        zip
+        zstd
+      ]
+      ++ (with pkgs-unstable; [
+        brave
+        claude-code
+        claude-monitor
+        firefox
+      ]);
 
     file = {
       "Library/KeyBindings/DefaultKeyBinding.dict".text = ''
@@ -62,8 +66,10 @@
         }
       '';
       ".claude/CLAUDE.md".source = ./claude/CLAUDE.md;
-      ".claude/commands/commit.md".source = ./claude/commit.md;
-      ".claude/commands/pr.md".source = ./claude/pr.md;
+      ".claude/commands/commit.md".source = ./claude/commands/commit.md;
+      ".claude/commands/pr.md".source = ./claude/commands/pr.md;
+      ".claude/commands/jira.md".source = ./claude/commands/jira.md;
+      # ".claude/settings.json".source = ./claude/settings.json;
     };
   };
 
@@ -349,8 +355,14 @@
             views = {
               charts = {
                 bgColor = "default";
-                defaultDialColors = [ "#268bd2" "#dc322f" ];
-                defaultChartColors = [ "#268bd2" "#dc322f" ];
+                defaultDialColors = [
+                  "#268bd2"
+                  "#dc322f"
+                ];
+                defaultChartColors = [
+                  "#268bd2"
+                  "#dc322f"
+                ];
               };
               table = {
                 fgColor = "#000000";
@@ -412,7 +424,7 @@
             "3.11"
             "3.10"
           ];
-          ruby = "3.1.7";  # (25/11/12) 3.4.x not works
+          ruby = "3.1.7"; # (25/11/12) 3.4.x not works
           rust = "1.91.0";
           sbt = "1.11.4";
           scala = "2.12.18";
@@ -424,7 +436,7 @@
           ];
         };
         settings = {
-          idiomatic_version_file_enable_tools = [];
+          idiomatic_version_file_enable_tools = [ ];
         };
       };
     };
@@ -463,7 +475,7 @@
       colorscheme = "macvim-light";
       # colorscheme = "lunaperche";
       # colorscheme = "github_light_high_contrast";
-  
+
       opts = {
         startofline = true;
         number = true;
@@ -476,16 +488,16 @@
         mouse = "r";
         splitright = true;
         splitbelow = true;
-  
-        # tab
-        tabstop = 4;
-        expandtab = true;
-  
+
+        # # tab
+        # tabstop = 4;
+        # expandtab = true;
+
         # search settings
         ignorecase = true;
         smartcase = true;
       };
-  
+
       colorschemes = {
         # modus = {
         #   enable = true;
@@ -503,7 +515,7 @@
         #   };
         # };
       };
-  
+
       plugins = {
         copilot-lua = {
           enable = true;
@@ -572,55 +584,127 @@
             options = {
               theme = {
                 normal = {
-                  a = { fg = "#ffffff"; bg = "#2d3748"; gui = "bold"; };
-                  b = { fg = "#e2e8f0"; bg = "#4a5568"; };
-                  c = { fg = "#cbd5e0"; bg = "#1a202c"; };
+                  a = {
+                    fg = "#ffffff";
+                    bg = "#2d3748";
+                    gui = "bold";
+                  };
+                  b = {
+                    fg = "#e2e8f0";
+                    bg = "#4a5568";
+                  };
+                  c = {
+                    fg = "#cbd5e0";
+                    bg = "#1a202c";
+                  };
                 };
                 insert = {
-                  a = { fg = "#1a202c"; bg = "#48bb78"; gui = "bold"; };
-                  b = { fg = "#e2e8f0"; bg = "#4a5568"; };
-                  c = { fg = "#cbd5e0"; bg = "#1a202c"; };
+                  a = {
+                    fg = "#1a202c";
+                    bg = "#48bb78";
+                    gui = "bold";
+                  };
+                  b = {
+                    fg = "#e2e8f0";
+                    bg = "#4a5568";
+                  };
+                  c = {
+                    fg = "#cbd5e0";
+                    bg = "#1a202c";
+                  };
                 };
                 visual = {
-                  a = { fg = "#1a202c"; bg = "#ed8936"; gui = "bold"; };
-                  b = { fg = "#e2e8f0"; bg = "#4a5568"; };
-                  c = { fg = "#cbd5e0"; bg = "#1a202c"; };
+                  a = {
+                    fg = "#1a202c";
+                    bg = "#ed8936";
+                    gui = "bold";
+                  };
+                  b = {
+                    fg = "#e2e8f0";
+                    bg = "#4a5568";
+                  };
+                  c = {
+                    fg = "#cbd5e0";
+                    bg = "#1a202c";
+                  };
                 };
                 replace = {
-                  a = { fg = "#ffffff"; bg = "#e53e3e"; gui = "bold"; };
-                  b = { fg = "#e2e8f0"; bg = "#4a5568"; };
-                  c = { fg = "#cbd5e0"; bg = "#1a202c"; };
+                  a = {
+                    fg = "#ffffff";
+                    bg = "#e53e3e";
+                    gui = "bold";
+                  };
+                  b = {
+                    fg = "#e2e8f0";
+                    bg = "#4a5568";
+                  };
+                  c = {
+                    fg = "#cbd5e0";
+                    bg = "#1a202c";
+                  };
                 };
                 command = {
-                  a = { fg = "#1a202c"; bg = "#4299e1"; gui = "bold"; };
-                  b = { fg = "#e2e8f0"; bg = "#4a5568"; };
-                  c = { fg = "#cbd5e0"; bg = "#1a202c"; };
+                  a = {
+                    fg = "#1a202c";
+                    bg = "#4299e1";
+                    gui = "bold";
+                  };
+                  b = {
+                    fg = "#e2e8f0";
+                    bg = "#4a5568";
+                  };
+                  c = {
+                    fg = "#cbd5e0";
+                    bg = "#1a202c";
+                  };
                 };
                 # inactive 는 회색/흰색 계열
                 inactive = {
-                  a = { fg = "#4a5568"; bg = "#f7fafc"; };
-                  b = { fg = "#718096"; bg = "#edf2f7"; };
-                  c = { fg = "#a0aec0"; bg = "#e2e8f0"; };
+                  a = {
+                    fg = "#4a5568";
+                    bg = "#f7fafc";
+                  };
+                  b = {
+                    fg = "#718096";
+                    bg = "#edf2f7";
+                  };
+                  c = {
+                    fg = "#a0aec0";
+                    bg = "#e2e8f0";
+                  };
                 };
               };
               globalstatus = false;
-              component_separators = { left = "/"; right = "/"; };
-              section_separators = { left = ""; right = ""; };
+              component_separators = {
+                left = "/";
+                right = "/";
+              };
+              section_separators = {
+                left = "";
+                right = "";
+              };
             };
 
             sections = {
               lualine_a = [ "mode" ];
-              lualine_b = [ "branch" "diff" "diagnostics" ];
+              lualine_b = [
+                "branch"
+                "diff"
+                "diagnostics"
+              ];
               lualine_c = [
                 {
                   __unkeyed-1 = "filename";
                   newfile_status = true;
                   file_status = true;
-                  path = 1;  # 0 = just filename, 1 = relative path, 2 = absolute path
+                  path = 1; # 0 = just filename, 1 = relative path, 2 = absolute path
                   # shorting_target = 150;
                 }
               ];
-              lualine_x = [ "encoding" "filetype" ];
+              lualine_x = [
+                "encoding"
+                "filetype"
+              ];
               lualine_y = [ "progress" ];
               lualine_z = [ "location" ];
             };
@@ -665,6 +749,9 @@
             markdown_oxide = {
               enable = true;
             };
+            nil_ls = {
+              enable = true;
+            };
             pyright = {
               enable = true;
             };
@@ -684,12 +771,15 @@
               enable = true;
             };
             yamlls = {
-              enable = false;  # disable for helm
+              enable = false; # disable for helm
             };
             # just use idea
             metals = {
               enable = true;
-              filetypes = ["scala" "sbt"];
+              filetypes = [
+                "scala"
+                "sbt"
+              ];
             };
           };
           keymaps = {
@@ -728,7 +818,7 @@
             };
           };
         };
-  
+
         nvim-tree = {
           enable = true;
           settings = {
@@ -775,7 +865,7 @@
         web-devicons = {
           enable = true;
         };
-  
+
         treesitter = {
           enable = true;
 
@@ -794,14 +884,14 @@
             python
             scala
             go
-            terraform
+            # terraform # 이상함
             typescript
             rust
           ];
-  
+
           settings = {
             indent = {
-              enable = true;
+              enable = false; # 이상함
             };
             incremental_selection = {
               enable = true;
@@ -820,7 +910,7 @@
         treesitter-context = {
           enable = true;
         };
-        
+
         cmp = {
           enable = true;
           autoEnableSources = true;
@@ -852,55 +942,55 @@
         (pkgs.vimUtils.buildVimPlugin {
           name = "vim-system-copy";
           src = pkgs.fetchFromGitHub {
-              owner = "christoomey";
-              repo = "vim-system-copy";
-              rev = "8abd9ed21016bdc21b458c79da3b9ac0ee25c1ce";
-              hash = "sha256-Z+5Kv1jzzmKSmTtswd1XIskPhmrIHTPmJ+F/gX5/TiE=";
+            owner = "christoomey";
+            repo = "vim-system-copy";
+            rev = "8abd9ed21016bdc21b458c79da3b9ac0ee25c1ce";
+            hash = "sha256-Z+5Kv1jzzmKSmTtswd1XIskPhmrIHTPmJ+F/gX5/TiE=";
           };
         })
         (pkgs.vimUtils.buildVimPlugin {
           name = "github-nvim-theme";
           src = pkgs.fetchFromGitHub {
-              owner = "projekt0n";
-              repo = "github-nvim-theme";
-              rev = "c106c9472154d6b2c74b74565616b877ae8ed31d";
-              hash = "sha256-/A4hkKTzjzeoR1SuwwklraAyI8oMkhxrwBBV9xb59PA=";
+            owner = "projekt0n";
+            repo = "github-nvim-theme";
+            rev = "c106c9472154d6b2c74b74565616b877ae8ed31d";
+            hash = "sha256-/A4hkKTzjzeoR1SuwwklraAyI8oMkhxrwBBV9xb59PA=";
           };
         })
         (pkgs.vimUtils.buildVimPlugin {
           name = "macvim-light";
           src = pkgs.fetchFromGitHub {
-              owner = "orslow";
-              repo = "macvim-light";
-              rev = "95184a7fb2953019beb82b797637da1f3965ae09";
-              hash = "sha256-6dsqbxMa7Y4lAmERKqzxKhNWdvrh2YwD8GpulWPgn04=";
+            owner = "orslow";
+            repo = "macvim-light";
+            rev = "95184a7fb2953019beb82b797637da1f3965ae09";
+            hash = "sha256-6dsqbxMa7Y4lAmERKqzxKhNWdvrh2YwD8GpulWPgn04=";
           };
         })
         (pkgs.vimUtils.buildVimPlugin {
           name = "vim-maximizer";
           src = pkgs.fetchFromGitHub {
-              owner = "szw";
-              repo = "vim-maximizer";
-              rev = "2e54952fe91e140a2e69f35f22131219fcd9c5f1";
-              hash = "sha256-+VPcMn4NuxLRpY1nXz7APaXlRQVZD3Y7SprB/hvNKww=";
+            owner = "szw";
+            repo = "vim-maximizer";
+            rev = "2e54952fe91e140a2e69f35f22131219fcd9c5f1";
+            hash = "sha256-+VPcMn4NuxLRpY1nXz7APaXlRQVZD3Y7SprB/hvNKww=";
           };
         })
         (pkgs.vimUtils.buildVimPlugin {
           name = "claude-shuttle";
           src = pkgs.fetchFromGitHub {
-              owner = "orslow";
-              repo = "claude-shuttle";
-              rev = "520a7b5281628c8b8a2611b1b73b501c75bda644";
-              hash = "sha256-q7e9ddgQWA78nuct1nYHXziRv6NI3fYbmJNHCWkfWu0=";
+            owner = "orslow";
+            repo = "claude-shuttle";
+            rev = "19ceff00e63f23b685a33a4b9d52d041cb32deb9";
+            hash = "sha256-W8ZtZ6cEAHwXfcDVGK9+yuwRHzGmJw8vbZ0OddYmUEo=";
           };
         })
         (pkgs.vimUtils.buildVimPlugin {
           name = "shirotelin";
           src = pkgs.fetchFromGitHub {
-              owner = "yasukotelin";
-              repo = "shirotelin";
-              rev = "c486f6f1c88acb585859b8d96dd68eafeb14bbd3";
-              hash = "sha256-LkMJNIjkpOV4kBnn4XOzipA9DMtaYYwLpL5zcYK2LgE=";
+            owner = "yasukotelin";
+            repo = "shirotelin";
+            rev = "c486f6f1c88acb585859b8d96dd68eafeb14bbd3";
+            hash = "sha256-LkMJNIjkpOV4kBnn4XOzipA9DMtaYYwLpL5zcYK2LgE=";
           };
         })
       ];
@@ -974,32 +1064,32 @@
         # command by p
         unbind C-b
         set-option -g prefix C-q
-        
+
         set -g mouse off
-        
+
         setw -g mode-keys vi
-        
+
         # open window with currrent path
         bind c new-window -c '#{pane_current_path}'
-        
+
         # open panel with current path
         bind '%' split-window -h -c "#{pane_current_path}"
         bind '"' split-window -v -c "#{pane_current_path}"
-        
+
         # set -g default-terminal screen-256color
         #set -g status-keys vi
         #setw -g mode-keys vi
-        
+
         #set -g mouse-select-pane on
         #set -g mouse-resize-pane on
-        
+
         # window swap off
         unbind C-o
         bind-key C-h select-pane -L
         bind-key C-l select-pane -R
         bind-key C-k select-pane -U
         bind-key C-j select-pane -D
-        
+
         # copy-mode(for scrolling to me) re-mapping
         bind-key C-u copy-mode
 
@@ -1007,27 +1097,27 @@
         bind-key -T copy-mode-vi v send-keys -X begin-selection
         bind-key -T copy-mode-vi y send-keys -X copy-selection # -and-cancel
         bind-key -T copy-mode-vi Enter send-keys -X copy-selection # -and-cancel
-        
+
         set-option -g renumber-windows on
-        
+
         # vim escape time?
         set -sg escape-time 0
-        
+
         # 256 color for p10k
         set -g default-terminal "screen-256color"
-        
+
         # border colors
         set -g pane-active-border-style bg=default,fg=magenta
         set -g pane-border-style fg=green
-        
+
         set-option -g history-limit 1000000
-        
+
         # # active pane
         # set -g window-active-style 'fg=terminal,bg=terminal'
         # set -g window-style 'fg=terminal,bg=colour15' # white background
         # 
         # set-window-option -g window-status-current-style bg=white
-        
+
         set-window-option -g window-status-current-style bg=gray
 
         # cursor style
@@ -1065,7 +1155,7 @@
         # case insensitve
         zstyle ''\':completion:*''\' matcher-list ''\'''\' ''\'m:{a-zA-Z}={A-Za-z}''\' ''\'r:|=*''\' ''\'l:|=* r:|=*''\'
         autoload -Uz compinit && compinit
-        
+
         # bash style word selection
         autoload -U select-word-style
         select-word-style bash
@@ -1076,33 +1166,64 @@
         # fn+delete
         bindkey "\e[3~" delete-char
 
-        # XXX. gh
+        # XXX. tokens
         if [ -f ~/.github_token ]; then
             export GH_TOKEN=$(cat ~/.github_token)
+        fi
+        if [ -f ~/.anthropic_api_key ]; then
+            export ANTHROPIC_API_KEY=$(cat ~/.anthropic_api_key)
         fi
 
         # XXX. k9s
         export K9S_CONFIG_DIR=~/.config/k9s
         export RUNEWIDTH_EASTASIAN=0
+
+        ### DEVSISTERS ###
+        ## Vault sign
+        sign () {
+            KEY_PATH="$HOME/.ssh/id_ed25519"
+            PUBKEY_PATH="$KEY_PATH.pub"
+            CERT_PATH=$KEY_PATH-cert.pub
+            vault write -field=signed_key ssh-client-signer/sign/developer valid_principals=ubuntu,ec2-user,core,openvpnas,admin,devadmin,devsisters-spark public_key=- ttl=''${1:-36000} < "$PUBKEY_PATH" > "$CERT_PATH"
+            chmod 600 "$CERT_PATH"
+        }
+
+        ## Easy, handy login command on Devsisters
+        function lg() {
+            echo "Vault"
+            vault login -method=oidc
+            echo "AWS"
+            saml2aws login --force --session-duration=43200
+            sign
+        }
+
+        export VAULT_ADDR=https://vault.devsisters.cloud
+
+        export GOPRIVATE="github.com/devsisters"
+
+        alias gbecloregon="AWS_PROFILE=gb AWS_REGION=us-west-2 ecl"
+        alias gbecl="AWS_PROFILE=gb ecl"
+        alias eclclone="AWS_PROFILE=pub-clone ecl"
+        alias eclkakao="AWS_PROFILE=saml AWS_REGION=ap-northeast-1 ecl"
       '';
-  
+
       plugins = [
         {
           name = "powerlevel10k-config";
           src = ./scripts;
           file = "p10k.zsh";
         }
-        {                                                                                   
-          name = "powerlevel10k";                                                           
-          src = pkgs.zsh-powerlevel10k;                                                     
-          file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";                         
+        {
+          name = "powerlevel10k";
+          src = pkgs.zsh-powerlevel10k;
+          file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
         }
       ];
     };
 
     home-manager = {
       enable = true;
-      path  = "$HOME/Documents/git/home-manager";
+      path = "$HOME/Documents/git/home-manager";
     };
   };
 }
