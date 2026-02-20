@@ -53,10 +53,13 @@
         zstd
       ]
       ++ (with pkgs-unstable; [
+        tailscale
         brave
         claude-code
         claude-monitor
         firefox
+        mtr-gui
+        notion-app
       ]);
 
     file = {
