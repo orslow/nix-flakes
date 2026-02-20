@@ -1173,9 +1173,9 @@
         if [ -f ~/.github_token ]; then
             export GH_TOKEN=$(cat ~/.github_token)
         fi
-        if [ -f ~/.anthropic_api_key ]; then
-            export ANTHROPIC_API_KEY=$(cat ~/.anthropic_api_key)
-        fi
+        # if [ -f ~/.anthropic_api_key ]; then
+        #     export ANTHROPIC_API_KEY=$(cat ~/.anthropic_api_key)
+        # fi
 
         # XXX. k9s
         export K9S_CONFIG_DIR=~/.config/k9s
