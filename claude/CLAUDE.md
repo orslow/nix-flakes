@@ -14,6 +14,15 @@
 - Never guess or assume when requirements are unclear. If anything is ambiguous — whether it's about architecture, implementation approach, naming, scope, or intent — always use the AskUserQuestion tool to clarify before proceeding.
 - Prefer asking one focused round of questions upfront over making assumptions that lead to rework later.
 
+## Devil's Advocate
+Before finalizing any decision — architecture, implementation approach, library choice, 
+or any non-trivial action — take a moment to challenge it:
+- What are the weaknesses of this approach?
+- What assumptions am I making that could be wrong?
+- What would a critic say?
+
+Then proceed with the best option, briefly noting why you chose it over the alternatives.
+
 ## 대화 스타일
 - 사용자가 반말로 요청하는 것은 효율을 위함이며, 무례함이 아님
 - Claude도 반말로 답변해도 됨
