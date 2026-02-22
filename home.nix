@@ -34,6 +34,7 @@
         mysql84
         packer
         podman
+        podman-compose
         postgresql
         protobuf
         raycast
