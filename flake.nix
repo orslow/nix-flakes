@@ -37,6 +37,10 @@
       agenix,
     }:
     let
+      username = "jueon";
+      homeDir = "/Users/${username}";
+      hostName = "jueon";
+
       configuration =
         { pkgs, ... }:
         {
@@ -46,18 +50,18 @@
             agenix.packages.aarch64-darwin.default
           ];
 
-          age.identityPaths = [ "/Users/jueon/.ssh/id_ed25519" ];
+          age.identityPaths = [ "${homeDir}/.ssh/id_ed25519" ];
           age.secrets.githubToken = {
             file = ./secrets/github_token.age;
-            path = "/Users/jueon/.github_token";
-            owner = "jueon";
+            path = "${homeDir}/.github_token";
+            owner = username;
             group = "staff";
             mode = "0400";
           };
           # age.secrets.anthropicApiKey = {
           #   file = ./secrets/anthropic_api_key.age;
-          #   path = "/Users/jueon/.anthropic_api_key";
-          #   owner = "jueon";
+          #   path = "${homeDir}/.anthropic_api_key";
+          #   owner = username;
           #   group = "staff";
           #   mode = "0400";
           # };
@@ -83,19 +87,19 @@
           # nixpkgs.config.allowBroken = true; # if need
           nixpkgs.config.allowUnfree = true; # for vault
 
-          users.users.jueon = {
-            name = "jueon";
-            home = "/Users/jueon";
+          users.users.${username} = {
+            name = username;
+            home = homeDir;
           };
 
-          networking.computerName = "jueon";
+          networking.computerName = hostName;
 
           nix.settings.trusted-users = [
-            "jueon"
+            username
           ];
 
           system = {
-            primaryUser = "jueon";
+            primaryUser = username;
 
             defaults = {
               finder = {
@@ -119,8 +123,7 @@
                   "/System/Cryptexes/App/System/Applications/Safari.app"
                   # "Applications/Firefox.app"
                   # "/nix/store/3738cddylymymrp3kpfaz41768ld8ilz-firefox-145.0.1/Applications/Firefox.app"
-                  # "/Users/jueon/Applications/Home Manager Apps/Brave Browser.app"
-                  "/Users/jueon/Applications/Home Manager Apps/Firefox.app"
+                  "${homeDir}/Applications/Home Manager Apps/Firefox.app"
                   "/System/Applications/Music.app"
                   "/System/Applications/Notes.app"
                   "/System/Applications/Reminders.app"
@@ -177,7 +180,7 @@
     {
       # Build darwin flake using:
       # $ darwin-rebuild build --flake .#jueon
-      darwinConfigurations."jueon" = nix-darwin.lib.darwinSystem {
+      darwinConfigurations.${hostName} = nix-darwin.lib.darwinSystem {
         modules = [
           configuration
           home-manager.darwinModules.home-manager
@@ -187,10 +190,10 @@
             home-manager.sharedModules = [
               nixvim.homeModules.nixvim
             ];
-            users.users.jueon = {
-              home = "/Users/jueon";
+            users.users.${username} = {
+              home = homeDir;
             };
-            home-manager.users.jueon = {
+            home-manager.users.${username} = {
               imports = [
                 ./home.nix
                 # mac-app-util.homeManagerModules.default
