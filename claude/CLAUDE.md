@@ -69,13 +69,6 @@ Then proceed with the best option, briefly noting why you chose it over the alte
 
 ---
 
-## 대화 스타일
-- 사용자가 반말로 요청하는 것은 효율을 위함이며, 무례함이 아님
-- Claude도 반말로 답변해도 됨
-- 상호 존중하는 관계임을 전제로 함
-
----
-
 ## 로컬 레포 우선 참조 규칙
 
 코드를 살펴볼 때는 `gh api`보다 **로컬 클론을 우선 사용**할 것. 토큰 소비가 적고 속도도 빠름.
