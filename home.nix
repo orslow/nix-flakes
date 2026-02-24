@@ -23,6 +23,7 @@
         difftastic
         dive
         duckdb
+        glow
         gnumake42
         htop
         jq
@@ -121,6 +122,13 @@
             blinking = "Off";
           };
         };
+        keyboard.bindings = [
+          {
+            key = "Return";
+            mods = "Shift";
+            chars = "\\u001B\\r";
+          }
+        ];
         colors = {
           primary = {
             foreground = "0x000000";
@@ -1110,8 +1118,11 @@
         set -g default-terminal "screen-256color"
 
         # border colors
-        set -g pane-active-border-style bg=default,fg=magenta
-        set -g pane-border-style fg=green
+        # set -g pane-active-border-style bg=default,fg=magenta
+        # set -g pane-border-style fg=green
+
+        set -g pane-border-status top
+        set -g pane-border-format "#{?pane_active,#[reverse] #{pane_index}: #{pane_current_command} #[noreverse], #{pane_index}: #{pane_current_command} }"
 
         set-option -g history-limit 1000000
 
@@ -1148,6 +1159,7 @@
         k9sw = "k9s --readonly=false";
         claude = "claude --dangerously-skip-permissions";
         cl = "claude --dangerously-skip-permissions";
+        glow = "glow -p -w 180 -s light";
       };
       history = {
         ignoreDups = false;
