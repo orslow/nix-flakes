@@ -56,6 +56,8 @@ Coordinate work in parallel and synthesize findings at the end.
 - Never guess or assume when requirements are unclear. If anything is ambiguous — whether it's about architecture, implementation approach, naming, scope, or intent — always use the AskUserQuestion tool to clarify before proceeding.
 - Prefer asking one focused round of questions upfront over making assumptions that lead to rework later.
 
+- Never use homebrew(brew)
+
 ---
 
 ## Devil's Advocate
