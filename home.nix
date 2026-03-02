@@ -1088,11 +1088,11 @@
         bind '"' split-window -v -c "#{pane_current_path}"
 
         # set -g default-terminal screen-256color
-        #set -g status-keys vi
-        #setw -g mode-keys vi
+        # set -g status-keys vi
+        # setw -g mode-keys vi
 
-        #set -g mouse-select-pane on
-        #set -g mouse-resize-pane on
+        # set -g mouse-select-pane on
+        # set -g mouse-resize-pane on
 
         # window swap off
         unbind C-o
@@ -1118,11 +1118,14 @@
         set -g default-terminal "screen-256color"
 
         # border colors
-        # set -g pane-active-border-style bg=default,fg=magenta
-        # set -g pane-border-style fg=green
+        set -g pane-border-style fg=colour250
+        set -g pane-active-border-style fg=colour92,bold
 
         set -g pane-border-status top
         set -g pane-border-format "#{?pane_active,#[reverse] #{pane_index}: #{pane_current_command} #[noreverse], #{pane_index}: #{pane_current_command} }"
+
+        set -g pane-border-lines heavy
+        set -g pane-border-indicators both
 
         set-option -g history-limit 1000000
 
