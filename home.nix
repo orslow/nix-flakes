@@ -1,10 +1,54 @@
 { pkgs, pkgs-unstable, ... }:
+let
+  ankitui = pkgs.rustPlatform.buildRustPackage rec {
+    pname = "ankitui";
+    version = "0.1.0";
+
+    src = pkgs.fetchFromGitHub {
+      owner = "funcpp";
+      repo = "ankitui";
+      rev = "49da37ea6a8bc444b04602320cc3a1ed7a52eab4";
+      hash = "sha256-mUsIGmLcGuFBXwdJvd89koq7tiJc2CzrAGs1TSG/F58=";
+    };
+
+    cargoHash = "sha256-N3MOlHogJhKvO9+GYFWVPOfyUAGgm84PKsf+gFer4Wg=";
+
+    nativeBuildInputs = [ pkgs.pkg-config ];
+
+    meta = {
+      description = "A TUI client for Anki using AnkiConnect";
+      mainProgram = "ankitui";
+    };
+  };
+in
 {
   # imports = [
   #   ./configs
   # ];
 
-  xdg.enable = true;
+  xdg = {
+    enable = true;
+    configFile = {
+      "vim/vimrc".text = ''
+        if has('gui_running')
+          set guifont=MesloLGS\ Nerd\ Font:h14
+          set lines=80 columns=160
+          set sol
+          set nu
+          set rnu
+          set cul
+          set so=4
+          set hls
+          set is
+          set ic
+          set scs
+          set spr
+          set sb
+          set ai
+        endif
+      '';
+    };
+  };
 
   home = {
     stateVersion = "25.11";
@@ -42,6 +86,7 @@
         rectangle
         saml2aws
         shellcheck
+        scdoc
         slack
         sqlite
         tree
@@ -61,7 +106,10 @@
         firefox
         mtr-gui
         notion-app
-      ]);
+      ])
+      ++ [
+        ankitui
+      ];
 
     file = {
       "Library/KeyBindings/DefaultKeyBinding.dict".text = ''
@@ -1183,6 +1231,9 @@
 
         # fn+delete
         bindkey "\e[3~" delete-char
+
+        # ctrl+b: 한 단어 뒤로 이동
+        bindkey '^B' backward-word
 
         # XXX. tokens
         if [ -f ~/.github_token ]; then
