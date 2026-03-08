@@ -138,6 +138,15 @@ in
   };
 
   programs = {
+    # aerospace = {
+    #   enable = true;
+    #   userSettings = {
+    #     config-version = 2;
+    #     start-at-login = true;
+    #     auto-reload-config = true;
+    #   };
+    # };
+
     alacritty = {
       enable = true;
       settings = {
@@ -576,23 +585,6 @@ in
       };
 
       plugins = {
-        copilot-lua = {
-          enable = true;
-          settings = {
-            panel = {
-              enabled = true;
-            };
-            suggestion = {
-              enabled = true;
-            };
-          };
-        };
-        copilot-lsp = {
-          enable = true;
-        };
-        # copilot-cmp = {
-        #   enable = true;
-        # };
         conform-nvim = {
           enable = true;
           settings = {
@@ -1157,8 +1149,6 @@ in
         bind-key -T copy-mode-vi y send-keys -X copy-selection # -and-cancel
         bind-key -T copy-mode-vi Enter send-keys -X copy-selection # -and-cancel
 
-        set-option -g renumber-windows on
-
         # vim escape time?
         set -sg escape-time 0
 
@@ -1292,7 +1282,6 @@ in
 
     home-manager = {
       enable = true;
-      path = "$HOME/Documents/git/home-manager";
     };
   };
 }
