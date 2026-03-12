@@ -57,6 +57,7 @@ Coordinate work in parallel and synthesize findings at the end.
 - Prefer asking one focused round of questions upfront over making assumptions that lead to rework later.
 
 - Never use homebrew(brew)
+- Always use `podman` instead of `docker`. This includes `podman build`, `podman run`, `podman compose`, etc.
 
 ---
 
