@@ -1,6 +1,6 @@
 { pkgs, pkgs-unstable, ... }:
 let
-  ankitui = pkgs.rustPlatform.buildRustPackage rec {
+  ankitui = pkgs.rustPlatform.buildRustPackage {
     pname = "ankitui";
     version = "0.1.0";
 
@@ -87,7 +87,6 @@ in
         saml2aws
         shellcheck
         scdoc
-        slack
         sqlite
         tree
         unzip
@@ -106,6 +105,7 @@ in
         firefox
         mtr-gui
         notion-app
+        slack
       ])
       ++ [
         ankitui
@@ -1112,7 +1112,7 @@ in
         set -gu default-command
         set -g default-shell "$SHELL"
 
-        # command by p
+        # command by q
         unbind C-b
         set-option -g prefix C-q
 
@@ -1198,6 +1198,8 @@ in
         rgh = "rg --hidden";
         k9s = "k9s --readonly=true";
         k9sw = "k9s --readonly=false";
+        kx = "kubectx";
+        ks = "kubens";
         claude = "claude --dangerously-skip-permissions";
         cl = "claude --dangerously-skip-permissions";
         glow = "glow -p -w 180 -s light";

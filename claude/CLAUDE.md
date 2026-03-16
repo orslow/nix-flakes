@@ -3,10 +3,10 @@
 ## Agent Teams Policy
 
 ### Always Use Agent Teams
-For every task, regardless of size or complexity, you must use Agent Teams. Do not fall back to single-session execution. Tokens are not a big constraint — parallel collaboration and higher output quality are the priority.
+For every task, regardless of size or complexity, you can use Agent Teams. Do not fall back to single-session execution. Tokens are not a big constraint — parallel collaboration and higher output quality are the priority.
 
 ### Mandatory Team Structure
-Every team must include the following roles at minimum:
+Every team could include the following roles at minimum:
 1. Team Lead (you)
 - Decompose the task into clearly scoped, parallel workstreams
 - Assign teammates their roles and initial instructions
@@ -16,7 +16,7 @@ Every team must include the following roles at minimum:
 - Assign one or more teammates with focused, domain-specific roles relevant to the task (e.g., backend, frontend, architecture, security, testing, documentation)
 - Each specialist should work independently within their domain and communicate findings directly to other teammates as needed
 3. Devil's Advocate Teammate (mandatory, non-negotiable)
-- This teammate must always be present in every team, no exceptions.
+- This teammate should always be present in every team, no exceptions.
 - Role: Critically challenge every assumption, decision, and output produced by the other teammates. The Devil's Advocate does not aim to obstruct — it aims to surface risks, blind spots, and alternative perspectives that improve the final result.
 - Responsibilities:
   - Question whether the chosen approach is truly the best one

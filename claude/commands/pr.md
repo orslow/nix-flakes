@@ -4,7 +4,7 @@ description: Create a draft pull request with auto-generated content based on gi
 ---
 Hello Claude! I need you to create a **draft** pull request for the current branch.
 
-## ⚠️ CRITICAL CONSTRAINT — MUST READ FIRST
+## ⚠️ CRITICAL CONSTRAINT — READ FIRST
 - **PR은 반드시 Draft 모드로 생성해야 함. 예외 없음.**
 - `gh pr create` 실행 시 반드시 `--draft` 플래그를 포함할 것.
 - `--draft` 플래그 없이 `gh pr create`를 실행하는 것은 **절대 금지**.

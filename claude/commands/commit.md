@@ -11,7 +11,7 @@ Hello Claude! I need you to commit the currently staged changes in this reposito
   - Create branch with: `git checkout -b <branch-name>` or `git switch -c <branch-name>`
 - Review the staged changes first using `git status` and `git diff --cached`
 - Write a clear, descriptive commit message following conventional commit format
-- **Must use appropriate conventional commit prefixes** such as:
+- **Use appropriate conventional commit prefixes** such as:
   - `feat:` - for new features
   - `fix:` - for bug fixes
   - `docs:` - for documentation changes
