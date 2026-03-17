@@ -103,6 +103,7 @@ in
         claude-code
         claude-monitor
         firefox
+        gws
         mtr-gui
         notion-app
         slack
