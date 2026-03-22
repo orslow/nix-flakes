@@ -106,6 +106,7 @@ in
         gws
         mtr-gui
         notion-app
+        google-cloud-sdk
         slack
       ])
       ++ [
@@ -139,17 +140,34 @@ in
   };
 
   programs = {
-    # aerospace = {
-    #   enable = true;
-    #   userSettings = {
-    #     config-version = 2;
-    #     start-at-login = true;
-    #     auto-reload-config = true;
-    #   };
-    # };
+    discord = {
+      enable = true;
+    };
+
+    aerospace = {
+      enable = true;
+      # userSettings = {
+      #   config-version = 2;
+      #   start-at-login = true;
+      #   auto-reload-config = true;
+      # };
+    };
 
     alacritty = {
       enable = true;
+      package = pkgs.alacritty.overrideAttrs (old: rec {
+        # Korean IME composition fix (orslow/alacritty fork)
+        src = pkgs.fetchFromGitHub {
+          owner = "orslow";
+          repo = "alacritty";
+          rev = "d9ba37c931e94cf2b17663c4792efe8de5f5ce33";
+          hash = "sha256-aiuu9avb3FBwbzBBHuc1be+z9t4bSfRF77GqZd2JC8Y=";
+        };
+        cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
+          inherit src;
+          hash = "sha256-M+DR3LKOW7GvYqOwvwsIgSDtqnuyQi2XMba8SCjfwJc=";
+        };
+      });
       settings = {
         window = {
           padding = {
