@@ -42,6 +42,22 @@ Coordinate work in parallel and synthesize findings at the end.
 
 ---
 
+## Jira 티켓 리마인더
+
+사용자가 새로운 작업을 요청할 때, 작업에 들어가기 **전에** 반드시 다음을 물어볼 것:
+
+> "이 작업에 대한 Jira 티켓이 있나요? 없으면 만들까요?"
+> "GitHub 이슈(devsisters/data-engineering-issues)도 만들까요?"
+
+### 규칙
+- 코드 작업, 조사, 리뷰, 설정 변경 등 **모든 종류의 작업**에 대해 물어볼 것
+- Jira 티켓: 팀 단위 작업 추적 용도. Jira 프로젝트 `DE` (Data Engineering, devsisters.atlassian.net)에 생성
+- GitHub 이슈: 개인 PoC/실험 추적 용도. `devsisters/data-engineering-issues` 레포에 `gh issue create`로 생성
+- 사용자가 이미 티켓/이슈 번호를 언급한 경우 다시 물어보지 않음
+- 티켓 번호가 확인되면, 커밋 메시지에 포함할 것 (예: `[DATA-1234] ...`)
+
+---
+
 ## Common Rules
 - When making bulk edits across many files, NEVER reformat or modify lines unrelated to the requested change. If a formatter (ruff, gofmt, etc.) is run, scope it only to changed files and review the diff before committing.
 - When working with git operations (cherry-pick, merge, rebase), confirm the exact strategy with the user BEFORE executing. State what the operation will do and what changes it will bring in. Never assume cherry-pick vs merge vs manual apply.
