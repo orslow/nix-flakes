@@ -106,8 +106,8 @@ in
         gws
         mtr-gui
         notion-app
-        google-cloud-sdk
         slack
+        # openclaw
       ])
       ++ [
         ankitui
@@ -120,7 +120,7 @@ in
         }
       '';
       ".claude/CLAUDE.md".source = ./claude/CLAUDE.md;
-      ".claude/commands/commit.md".source = ./claude/commands/commit.md;
+      # ".claude/commands/commit.md".source = ./claude/commands/commit.md; # use official plugin
       ".claude/commands/pr.md".source = ./claude/commands/pr.md;
       ".claude/commands/jira.md".source = ./claude/commands/jira.md;
       # ".claude/settings.json".source = ./claude/settings.json;
@@ -144,64 +144,64 @@ in
       enable = true;
     };
 
-    aerospace = {
-      enable = true;
-      userSettings = {
-        accordion-padding = 0;
-        default-root-container-layout = "accordion";
-        default-root-container-orientation = "horizontal";
-        on-window-detected = [{ run = "layout floating"; }];
-        mode.main.binding = {
-          # 워크스페이스 전환
-          "alt-1" = "workspace 1";
-          "alt-2" = "workspace 2";
-          "alt-3" = "workspace 3";
-          "alt-4" = "workspace 4";
-          "alt-5" = "workspace 5";
+    # aerospace = {
+    #   enable = true;
+    #   userSettings = {
+    #     accordion-padding = 0;
+    #     default-root-container-layout = "accordion";
+    #     default-root-container-orientation = "horizontal";
+    #     on-window-detected = [ { run = "layout floating"; } ];
+    #     mode.main.binding = {
+    #       # 워크스페이스 전환
+    #       "alt-1" = "workspace 1";
+    #       "alt-2" = "workspace 2";
+    #       "alt-3" = "workspace 3";
+    #       "alt-4" = "workspace 4";
+    #       "alt-5" = "workspace 5";
 
-          # 윈도우를 워크스페이스로 이동
-          "alt-shift-1" = "move-node-to-workspace 1";
-          "alt-shift-2" = "move-node-to-workspace 2";
-          "alt-shift-3" = "move-node-to-workspace 3";
-          "alt-shift-4" = "move-node-to-workspace 4";
-          "alt-shift-5" = "move-node-to-workspace 5";
+    #       # 윈도우를 워크스페이스로 이동
+    #       "alt-shift-1" = "move-node-to-workspace 1";
+    #       "alt-shift-2" = "move-node-to-workspace 2";
+    #       "alt-shift-3" = "move-node-to-workspace 3";
+    #       "alt-shift-4" = "move-node-to-workspace 4";
+    #       "alt-shift-5" = "move-node-to-workspace 5";
 
-          # 포커스 이동 (vim 스타일)
-          "alt-h" = "focus left";
-          "alt-j" = "focus down";
-          "alt-k" = "focus up";
-          "alt-l" = "focus right";
+    #       # 포커스 이동 (vim 스타일)
+    #       "alt-h" = "focus left";
+    #       "alt-j" = "focus down";
+    #       "alt-k" = "focus up";
+    #       "alt-l" = "focus right";
 
-          # 윈도우 위치 이동
-          "alt-shift-h" = "move left";
-          "alt-shift-j" = "move down";
-          "alt-shift-k" = "move up";
-          "alt-shift-l" = "move right";
+    #       # 윈도우 위치 이동
+    #       "alt-shift-h" = "move left";
+    #       "alt-shift-j" = "move down";
+    #       "alt-shift-k" = "move up";
+    #       "alt-shift-l" = "move right";
 
-          # 직전 워크스페이스 토글
-          "alt-tab" = "workspace-back-and-forth";
+    #       # 직전 워크스페이스 토글
+    #       "alt-tab" = "workspace-back-and-forth";
 
-          # 레이아웃
-          "alt-slash" = "layout tiles horizontal vertical";
-          "alt-comma" = "layout accordion horizontal vertical";
-          "alt-f" = "fullscreen";
-          "ctrl-alt-backslash" = "fullscreen";
+    #       # 레이아웃
+    #       "alt-slash" = "layout tiles horizontal vertical";
+    #       "alt-comma" = "layout accordion horizontal vertical";
+    #       "alt-f" = "fullscreen";
+    #       "ctrl-alt-backslash" = "fullscreen";
 
-          # 리사이즈
-          "alt-minus" = "resize smart -50";
-          "alt-equal" = "resize smart +50";
+    #       # 리사이즈
+    #       "alt-minus" = "resize smart -50";
+    #       "alt-equal" = "resize smart +50";
 
-          # 플로팅 토글
-          "alt-shift-space" = "layout floating tiling";
-        };
-        workspace-to-monitor-force-assignment = {
-          "1" = 1;
-          "2" = 1;
-          "3" = 2;
-          "4" = 2;
-        };
-      };
-    };
+    #       # 플로팅 토글
+    #       "alt-shift-space" = "layout floating tiling";
+    #     };
+    #     workspace-to-monitor-force-assignment = {
+    #       "1" = 1;
+    #       "2" = 1;
+    #       "3" = 2;
+    #       "4" = 2;
+    #     };
+    #   };
+    # };
 
     alacritty = {
       enable = true;
@@ -376,6 +376,9 @@ in
           pl = "pr list --web";
         };
       };
+      extensions = [
+        pkgs.ghstack
+      ];
     };
 
     k9s = {
@@ -887,9 +890,12 @@ in
             terraformls = {
               enable = true;
             };
-            ts_ls = {
-              enable = true;
-            };
+            # ts_ls = {
+            #   enable = true;
+            # };
+            # tsgo = {
+            #   enable = true;
+            # };
             yamlls = {
               enable = false; # disable for helm
             };
@@ -1270,7 +1276,8 @@ in
         kx = "kubectx";
         ks = "kubens";
         claude = "claude --dangerously-skip-permissions";
-        cl = "claude --dangerously-skip-permissions";
+        # cl = "claude --dangerously-skip-permissions";
+        cl = "claude --enable-auto-mode --effort max";
         glow = "glow -p -w 180 -s light";
       };
       history = {
