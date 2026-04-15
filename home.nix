@@ -67,7 +67,6 @@ in
         difftastic
         dive
         duckdb
-        glow
         gnumake42
         htop
         jq
@@ -1278,7 +1277,6 @@ in
         claude = "claude --dangerously-skip-permissions";
         # cl = "claude --dangerously-skip-permissions";
         cl = "claude --enable-auto-mode --effort max";
-        glow = "glow -p -w 180 -s light";
       };
       history = {
         ignoreDups = false;
