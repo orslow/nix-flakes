@@ -106,6 +106,7 @@ in
         mtr-gui
         notion-app
         slack
+        # databricks-cli
         # openclaw
       ])
       ++ [
@@ -119,9 +120,10 @@ in
         }
       '';
       ".claude/CLAUDE.md".source = ./claude/CLAUDE.md;
-      # ".claude/commands/commit.md".source = ./claude/commands/commit.md; # use official plugin
+      ".claude/commands/commit.md".source = ./claude/commands/commit.md; # copied from https://github.com/anthropics/claude-code/blob/main/plugins/commit-commands/commands/commit.md
+      ".claude/commands/commit-push-pr.md".source = ./claude/commands/commit-push-pr.md; # copied from https://github.com/anthropics/claude-code/blob/main/plugins/commit-commands/commands/commit-push-pr.md, add explanation to create Draft PR
       ".claude/commands/pr.md".source = ./claude/commands/pr.md;
-      ".claude/commands/jira.md".source = ./claude/commands/jira.md;
+      # ".claude/commands/jira.md".source = ./claude/commands/jira.md;
       # ".claude/settings.json".source = ./claude/settings.json;
     };
   };
@@ -139,10 +141,6 @@ in
   };
 
   programs = {
-    discord = {
-      enable = true;
-    };
-
     # aerospace = {
     #   enable = true;
     #   userSettings = {
@@ -252,6 +250,7 @@ in
             key = "Return";
             mods = "Shift";
             chars = "\\u001B\\r";
+            mode = "~Alt"; # except vim
           }
         ];
         colors = {
@@ -294,6 +293,10 @@ in
     direnv = {
       enable = true;
       enableZshIntegration = true;
+    };
+
+    discord = {
+      enable = true;
     };
 
     # firefox = {
@@ -1105,8 +1108,8 @@ in
           src = pkgs.fetchFromGitHub {
             owner = "orslow";
             repo = "claude-shuttle";
-            rev = "19ceff00e63f23b685a33a4b9d52d041cb32deb9";
-            hash = "sha256-W8ZtZ6cEAHwXfcDVGK9+yuwRHzGmJw8vbZ0OddYmUEo=";
+            rev = "5446e5c711a102730ff90caf85f1c328c4da32d8";
+            hash = "sha256-Sj3dfYjZ8i/mH7l3Lqlxg++UnnMr46tNWb62kqgqufU=";
           };
         })
         (pkgs.vimUtils.buildVimPlugin {
@@ -1201,6 +1204,9 @@ in
         bind '%' split-window -h -c "#{pane_current_path}"
         bind '"' split-window -v -c "#{pane_current_path}"
 
+        # open in home
+        # set -g default-command "$SHELL"
+
         # set -g default-terminal screen-256color
         # set -g status-keys vi
         # setw -g mode-keys vi
@@ -1274,9 +1280,8 @@ in
         k9sw = "k9s --readonly=false";
         kx = "kubectx";
         ks = "kubens";
-        claude = "claude --dangerously-skip-permissions";
-        # cl = "claude --dangerously-skip-permissions";
-        cl = "claude --enable-auto-mode --effort max";
+        # claude = "claude --dangerously-skip-permissions";
+        cl = "claude --dangerously-skip-permissions --enable-auto-mode --effort max";
       };
       history = {
         ignoreDups = false;
