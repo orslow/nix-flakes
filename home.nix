@@ -120,6 +120,7 @@ in
         }
       '';
       ".claude/CLAUDE.md".source = ./claude/CLAUDE.md;
+      ".claude/keybindings.json".source = ./claude/keybindings.json; # Shift+Enter(=alt+enter sequence from alacritty) → newline
       ".claude/commands/commit.md".source = ./claude/commands/commit.md; # copied from https://github.com/anthropics/claude-code/blob/main/plugins/commit-commands/commands/commit.md
       ".claude/commands/commit-push-pr.md".source = ./claude/commands/commit-push-pr.md; # copied from https://github.com/anthropics/claude-code/blob/main/plugins/commit-commands/commands/commit-push-pr.md, add explanation to create Draft PR
       ".claude/commands/pr.md".source = ./claude/commands/pr.md;
@@ -246,11 +247,12 @@ in
           };
         };
         keyboard.bindings = [
+          # Shift+Return sends ESC+Enter
           {
             key = "Return";
             mods = "Shift";
             chars = "\\u001B\\r";
-            mode = "~Alt"; # except vim
+            # mode = "~Alt";
           }
         ];
         colors = {
@@ -1166,6 +1168,13 @@ in
         {
           action = "<cmd>MaximizerToggle<cr>";
           key = "<leader>z";
+        }
+
+        # Alt+Enter를 일반 Enter로 매핑 (insert 모드)
+        {
+          mode = "i";
+          action = "<CR>";
+          key = "<M-CR>";
         }
       ];
     };
