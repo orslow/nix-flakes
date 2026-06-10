@@ -81,7 +81,7 @@ in
         podman-compose
         postgresql
         protobuf
-        raycast
+        # raycast
         rectangle
         saml2aws
         shellcheck
@@ -105,6 +105,7 @@ in
         gws
         mtr-gui
         notion-app
+        raycast
         slack
         # databricks-cli
         # openclaw
@@ -124,7 +125,7 @@ in
       ".claude/commands/commit.md".source = ./claude/commands/commit.md; # copied from https://github.com/anthropics/claude-code/blob/main/plugins/commit-commands/commands/commit.md
       ".claude/commands/commit-push-pr.md".source = ./claude/commands/commit-push-pr.md; # copied from https://github.com/anthropics/claude-code/blob/main/plugins/commit-commands/commands/commit-push-pr.md, add explanation to create Draft PR
       ".claude/commands/pr.md".source = ./claude/commands/pr.md;
-      # ".claude/commands/jira.md".source = ./claude/commands/jira.md;
+      ".claude/commands/jira.md".source = ./claude/commands/jira.md;
       # ".claude/settings.json".source = ./claude/settings.json;
     };
   };
@@ -142,64 +143,18 @@ in
   };
 
   programs = {
-    # aerospace = {
-    #   enable = true;
-    #   userSettings = {
-    #     accordion-padding = 0;
-    #     default-root-container-layout = "accordion";
-    #     default-root-container-orientation = "horizontal";
-    #     on-window-detected = [ { run = "layout floating"; } ];
-    #     mode.main.binding = {
-    #       # 워크스페이스 전환
-    #       "alt-1" = "workspace 1";
-    #       "alt-2" = "workspace 2";
-    #       "alt-3" = "workspace 3";
-    #       "alt-4" = "workspace 4";
-    #       "alt-5" = "workspace 5";
+    jujutsu = {
+      enable = true;
+    };
 
-    #       # 윈도우를 워크스페이스로 이동
-    #       "alt-shift-1" = "move-node-to-workspace 1";
-    #       "alt-shift-2" = "move-node-to-workspace 2";
-    #       "alt-shift-3" = "move-node-to-workspace 3";
-    #       "alt-shift-4" = "move-node-to-workspace 4";
-    #       "alt-shift-5" = "move-node-to-workspace 5";
-
-    #       # 포커스 이동 (vim 스타일)
-    #       "alt-h" = "focus left";
-    #       "alt-j" = "focus down";
-    #       "alt-k" = "focus up";
-    #       "alt-l" = "focus right";
-
-    #       # 윈도우 위치 이동
-    #       "alt-shift-h" = "move left";
-    #       "alt-shift-j" = "move down";
-    #       "alt-shift-k" = "move up";
-    #       "alt-shift-l" = "move right";
-
-    #       # 직전 워크스페이스 토글
-    #       "alt-tab" = "workspace-back-and-forth";
-
-    #       # 레이아웃
-    #       "alt-slash" = "layout tiles horizontal vertical";
-    #       "alt-comma" = "layout accordion horizontal vertical";
-    #       "alt-f" = "fullscreen";
-    #       "ctrl-alt-backslash" = "fullscreen";
-
-    #       # 리사이즈
-    #       "alt-minus" = "resize smart -50";
-    #       "alt-equal" = "resize smart +50";
-
-    #       # 플로팅 토글
-    #       "alt-shift-space" = "layout floating tiling";
-    #     };
-    #     workspace-to-monitor-force-assignment = {
-    #       "1" = 1;
-    #       "2" = 1;
-    #       "3" = 2;
-    #       "4" = 2;
-    #     };
-    #   };
-    # };
+    dircolors = {
+      enable = true;
+      settings = {
+        DIR = "38;2;30;100;180";
+        LINK = "38;2;0;130;130";
+        EXEC = "38;2;160;40;40";
+      };
+    };
 
     alacritty = {
       enable = true;
@@ -305,6 +260,13 @@ in
     #   enable = true;
     # };
 
+    fd = {
+      enable = true;
+      ignores = [
+        ".git/"
+      ];
+    };
+
     fzf = {
       enable = true;
       enableZshIntegration = true;
@@ -315,7 +277,8 @@ in
       settings = {
         user = {
           name = "Jueon Park";
-          email = "juuueon@gmail.com";
+          email = "jueon.park@devsisters.com";
+          # email = "juuueon@gmail.com";
         };
         alias = {
           a = "add";
@@ -381,7 +344,18 @@ in
         };
       };
       extensions = [
-        pkgs.ghstack
+        (pkgs.buildGoModule rec {
+          pname = "gh-stack";
+          version = "0.0.3";
+          src = pkgs.fetchFromGitHub {
+            owner = "github";
+            repo = "gh-stack";
+            rev = "v${version}";
+            hash = "sha256-CwUDoLLcEsA+dlPDLqQnBLqdtNQwDW6ghmTkyXMpM4M=";
+          };
+          vendorHash = "sha256-JnuqORtdW+xz8pAGAFXdjRey8jCEj+miJiyfY7gzRSU=";
+          doCheck = false;
+        })
       ];
     };
 
@@ -689,9 +663,13 @@ in
             "<Leader>fs" = "live_grep";
             "<Leader>fc" = "grep_cword";
             "<Leader>ff" = "files";
+            "<Leader>ds" = "lsp_document_symbols";
+            "<Leader>ws" = "lsp_live_workspace_symbols";
             "gr" = "lsp_references";
             "gd" = "lsp_definitions";
             "gi" = "lsp_implementations";
+            "gy" = "lsp_typedefs";
+
           };
         };
         gitblame = {
@@ -1207,7 +1185,10 @@ in
         setw -g mode-keys vi
 
         # open window with currrent path
-        bind c new-window -c '#{pane_current_path}'
+        bind c new-window -a -t '{end}' -c '#{pane_current_path}'
+
+        # renumber windows when one is closed
+        set -g renumber-windows on
 
         # open panel with current path
         bind '%' split-window -h -c "#{pane_current_path}"
@@ -1290,7 +1271,7 @@ in
         kx = "kubectx";
         ks = "kubens";
         # claude = "claude --dangerously-skip-permissions";
-        cl = "claude --dangerously-skip-permissions --enable-auto-mode --effort max";
+        cl = "claude --dangerously-skip-permissions --enable-auto-mode --effort max --plugin-dir ~/.agents";
       };
       history = {
         ignoreDups = false;
