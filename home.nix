@@ -62,7 +62,10 @@ in
         awscli2
         blueutil
         bun
-        databricks-cli
+        # 26.05에서 테스트(TestIsViteReady) 실패로 빌드 깨짐 우회, 업스트림 수정 시 오버라이드 제거
+        (databricks-cli.overrideAttrs (_: {
+          doCheck = false;
+        }))
         dbeaver-bin
         difftastic
         dive
