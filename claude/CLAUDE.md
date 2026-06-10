@@ -122,6 +122,11 @@ Then proceed with the best option, briefly noting why you chose it over the alte
 
 ---
 
+## ASCII 기호 표기 규칙
+- 한글 외의 텍스트에서 ASCII로 표현 가능한 기호(화살표, 대시, 따옴표, 말줄임표 등)는 반드시 ASCII 등가물로 작성한다. 예: `→` 대신 `->`, `—` 대신 `-`, `…` 대신 `...`.
+
+---
+
 ## Python
 - 파이썬을 활용할 때는 무조건 `uv`를 통해 사용
 - 패키지 설치: `uv pip install <package>`
