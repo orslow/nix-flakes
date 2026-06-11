@@ -1278,7 +1278,8 @@ in
       };
       history = {
         ignoreDups = false;
-        # size = 10000;
+        size = 100000;
+        save = 100000;
         # path = "${config.xdg.dataHome}/zsh/history";
       };
       initContent = ''
