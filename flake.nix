@@ -19,6 +19,7 @@
       url = "github:nix-community/nixvim/main";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
     # mac-app-util = {
     #   url = "github:hraban/mac-app-util";
     # };
@@ -30,7 +31,7 @@
   };
 
   outputs =
-    inputs@{
+    {
       self,
       nix-darwin,
       nixpkgs,
