@@ -1280,6 +1280,8 @@ in
         ignoreDups = false;
         size = 100000;
         save = 100000;
+        # 26.05에서 평문 기록으로 바뀌며 기존 타임스탬프까지 유실되는 문제 방지
+        extended = true;
         # path = "${config.xdg.dataHome}/zsh/history";
       };
       initContent = ''
