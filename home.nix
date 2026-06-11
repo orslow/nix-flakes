@@ -20,6 +20,15 @@ let
       mainProgram = "ankitui";
     };
   };
+
+  # 프롬프트용 kube context 표시 부품
+  # v1.0.0 태그의 fish 스크립트는 미완성(함수명 불일치 등)이라 수정된 master 커밋으로 핀
+  kube-ps1-src = pkgs.fetchFromGitHub {
+    owner = "jonmosco";
+    repo = "kube-ps1";
+    rev = "52bd1ecf61a9640e743281efe3a66330e64b3574";
+    hash = "sha256-6li6p3NHqwufje7L5Jkxx8yvz8VqpnwCEjweduvXosQ=";
+  };
 in
 {
   # imports = [
@@ -146,6 +155,31 @@ in
   };
 
   programs = {
+    fish = {
+      enable = true;
+      plugins = [
+        {
+          # kube-ps1은 fisher식 디렉토리 구조가 아니라 conf.d 레이아웃으로 래핑
+          name = "kube-ps1";
+          src = pkgs.runCommand "kube-ps1-fish" { } ''
+            mkdir -p $out/conf.d
+            cp ${kube-ps1-src}/kube-ps1.fish $out/conf.d/
+          '';
+        }
+      ];
+      functions = {
+        # 시작용 커스텀 프롬프트: 경로 + git + kube context, 취향대로 수정
+        fish_prompt = ''
+          set -l last_status $status
+          echo -n (set_color blue)(prompt_pwd)(set_color normal)(fish_vcs_prompt) (kube_ps1)
+          if test $last_status -ne 0
+            echo -n (set_color red)"[$last_status]"(set_color normal)
+          end
+          echo -n ' > '
+        '';
+      };
+    };
+
     jujutsu = {
       enable = true;
     };
