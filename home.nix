@@ -98,6 +98,7 @@ in
         saml2aws
         shellcheck
         scdoc
+        slack
         sqlite
         tree
         unzip
@@ -118,7 +119,7 @@ in
         mtr-gui
         notion-app
         raycast
-        slack
+        # slack
         # databricks-cli
         # openclaw
       ])
@@ -1052,33 +1053,54 @@ in
             };
           };
         };
-        treesitter-context = {
-          enable = true;
-        };
 
-        cmp = {
+        # treesitter-context = {
+        #   enable = true;
+        # };
+
+        blink-cmp = {
           enable = true;
-          autoEnableSources = true;
+
+          # nixvim이 모든 plugins.lsp.servers.* 에 blink capabilities 자동 주입
+          # (setupLspCapabilities 기본 true, 명시 유지)
+          setupLspCapabilities = true;
+
           settings = {
-            sources = [
-              { name = "nvim_lsp"; }
-              { name = "path"; }
-              { name = "buffer"; }
-            ];
-            mapping = {
-              # "<C-Space>" = "cmp.mapping.complete()";
-              "<C-d>" = "cmp.mapping.scroll_docs(-4)";
-              "<C-e>" = "cmp.mapping.close()";
-              "<C-f>" = "cmp.mapping.scroll_docs(4)";
-              "<CR>" = "cmp.mapping.confirm({ select = true })";
-              "<S-Tab>" = "cmp.mapping(cmp.mapping.select_prev_item(), {'i', 's'})";
-              "<Tab>" = "cmp.mapping(cmp.mapping.select_next_item(), {'i', 's'})";
-            };
-          };
-        };
+            # --- blink default preset 키맵 치트시트 (v1.10.2) ---
+            # <C-y>            수락 (select_and_accept)
+            # <CR>             개행 (수락 아님)
+            # <C-n> / <C-p>    다음 / 이전 후보 이동
+            # <Tab> / <S-Tab>  스니펫 tabstop 앞 / 뒤 점프
+            # <C-space>        수동 트리거 / 문서 토글
+            # <C-e>            취소, 메뉴 닫기
+            # <C-b> / <C-f>    문서 위 / 아래 스크롤
+            # <C-k>            시그니처 토글
+            keymap.preset = "default";
 
-        luasnip = {
-          enable = true;
+            completion = {
+              # 첫 항목 미리 선택, 확정 시에만 텍스트 삽입 (nvim-cmp 동작 유지)
+              list.selection = {
+                preselect = true;
+                auto_insert = false;
+              };
+              # 항목 이동 시 LSP 문서 팝업 자동 표시
+              documentation.auto_show = true;
+            };
+
+            # 함수 인자 입력 중 시그니처/파라미터 표시 (기본 off)
+            signature.enabled = true;
+
+            sources.default = [
+              "lsp"
+              "path"
+              "snippets"
+              "buffer"
+            ];
+
+            # nixpkgs가 Rust fuzzy lib 빌드, nixvim이 target/release 링크
+            # prefer_rust: 있으면 사용, 없으면 Lua 폴백 (하드 에러 회피)
+            fuzzy.implementation = "prefer_rust";
+          };
         };
 
       };
@@ -1308,7 +1330,8 @@ in
         kx = "kubectx";
         ks = "kubens";
         # claude = "claude --dangerously-skip-permissions";
-        cl = "claude --dangerously-skip-permissions --enable-auto-mode --effort max --plugin-dir ~/.agents";
+        # cl = "claude --dangerously-skip-permissions --enable-auto-mode --effort max --plugin-dir ~/.agents";
+        cl = "claude --dangerously-skip-permissions --enable-auto-mode --effort xhigh --plugin-dir ~/.agents";
       };
       history = {
         ignoreDups = false;

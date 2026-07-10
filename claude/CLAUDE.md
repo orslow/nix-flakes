@@ -58,6 +58,18 @@ Coordinate work in parallel and synthesize findings at the end.
 
 ---
 
+## PR 생성 규칙 (Draft 필수, NON-NEGOTIABLE)
+
+**모든 Pull Request는 반드시 Draft로 생성한다.** `/pr`, `/commit-push-pr`, `/commit-commands:commit-push-pr` 등 어떤 command를 쓰든, 또는 command 없이 직접 만들든 동일하게 적용된다.
+
+- `gh pr create` 실행 시 **항상 `--draft` 플래그 포함**. `--draft` 없는 `gh pr create` 실행 절대 금지.
+- GitHub MCP `create_pull_request` 툴 사용 시 **반드시 `draft: true`로 호출** (기본값이 `draft: false`이므로 명시 필수).
+- `--draft` 없이 PR을 만들려는 자신을 발견하면 즉시 멈추고 Draft로 전환할 것.
+- Draft가 아닌 일반 PR은 리뷰어에게 즉시 알림이 가 혼란을 유발함. 확신이 없으면 항상 Draft로 생성.
+- 유일한 예외: 사용자가 그 요청에서 명시적으로 non-draft(ready) PR을 지시한 경우.
+
+---
+
 ## Common Rules
 - When making bulk edits across many files, NEVER reformat or modify lines unrelated to the requested change. If a formatter (ruff, gofmt, etc.) is run, scope it only to changed files and review the diff before committing.
 - When working with git operations (cherry-pick, merge, rebase), confirm the exact strategy with the user BEFORE executing. State what the operation will do and what changes it will bring in. Never assume cherry-pick vs merge vs manual apply.
@@ -106,6 +118,17 @@ Then proceed with the best option, briefly noting why you chose it over the alte
 - 로컬 브랜치가 최신이 아닐 수 있으므로, **반드시 fetch + pull 후 사용**
 - 특정 브랜치를 봐야 하는 경우 `git checkout {branch} && git pull origin {branch}`
 - 로컬에서 작업 중인(dirty) 브랜치가 있을 수 있으니, checkout 전 `git status` 확인
+
+---
+
+## 웹 페이지 조회 실패 시 (추측 금지, URL 제시)
+
+웹 페이지를 직접 조회해야 하는데 실패한 경우 (WebFetch 등 도구 오류/미존재, 접근 차단, 로그인/봇 차단 등) **페이지 내용을 유추하거나 기억에 의존해 추측하지 말 것.**
+
+- 페이지를 실제로 열어 확인하지 못했으면 그 사실을 먼저 명확히 밝힐 것 ("페이지를 직접 확인하지 못했음").
+- 확인하지 못한 내용을 사실처럼 단정해 제공하지 말 것.
+- 대신 **해당 페이지의 URL을 그대로 사용자에게 제시**하고, 직접 방문해 확인해 달라고 요청할 것.
+- 무엇을 확인하면 되는지(어떤 항목/섹션인지) 함께 짚어, 사용자가 결과를 붙여넣으면 이어서 진행할 수 있게 할 것.
 
 ---
 
