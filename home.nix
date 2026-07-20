@@ -156,6 +156,9 @@ in
   };
 
   programs = {
+    obsidian = {
+      enable = true;
+    };
     fish = {
       enable = true;
       plugins = [
@@ -898,9 +901,6 @@ in
             pyright = {
               enable = true;
             };
-            # ty = {
-            #   enable = true;
-            # };
             rust_analyzer = {
               enable = true;
               installCargo = true;
@@ -910,12 +910,6 @@ in
             terraformls = {
               enable = true;
             };
-            # ts_ls = {
-            #   enable = true;
-            # };
-            # tsgo = {
-            #   enable = true;
-            # };
             yamlls = {
               enable = false; # disable for helm
             };
