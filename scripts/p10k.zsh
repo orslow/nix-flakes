@@ -51,6 +51,7 @@
     # context                 # user@host
     dir                       # current directory
     vcs                       # git status
+    kubecontext               # current kubernetes context (https://kubernetes.io/)
     # command_execution_time  # previous command duration
     # virtualenv              # python virtual environment
     prompt_char               # prompt symbol
@@ -59,7 +60,7 @@
   # Right prompt segments.
   typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
     virtualenv                # python virtual environment
-    kubecontext               # current kubernetes context (https://kubernetes.io/)
+    # kubecontext             # moved to left prompt (after vcs)
     # command_execution_time  # previous command duration
     # context                 # user@host
     # time                    # current time
