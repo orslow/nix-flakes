@@ -71,10 +71,10 @@ in
         awscli2
         blueutil
         bun
-        # 26.05에서 테스트(TestIsViteReady) 실패로 빌드 깨짐 우회, 업스트림 수정 시 오버라이드 제거
-        (databricks-cli.overrideAttrs (_: {
-          doCheck = false;
-        }))
+        # move to mise
+        # (databricks-cli.overrideAttrs (_: {
+        #   doCheck = false;
+        # }))
         dbeaver-bin
         difftastic
         dive
@@ -112,18 +112,18 @@ in
       ]
       ++ (with pkgs-unstable; [
         tailscale
-        claude-code
-        claude-monitor
         firefox
         gws
         mtr-gui
-        notion-app
         raycast
         # slack
-        # databricks-cli
-        # openclaw
       ])
       ++ [
+        # 글로벌 Rust 폴백: devShell 밖에서 rust-analyzer 가 cargo check/rustfmt 를
+        # 실행할 수 있게 함. devShell 안에서는 nix develop 이 PATH 앞에 붙어 무시됨
+        cargo
+        rustc
+        rustfmt
         ankitui
       ];
 
@@ -156,6 +156,47 @@ in
   };
 
   programs = {
+    claude-code = {
+      enable = true;
+      package = pkgs-unstable.claude-code;
+      # plugins = [ ./claude/plugins/agents-skills ];
+      # context = ./claude/CLAUDE.md;
+      # commandsDir = ./claude/commands;
+
+      # 아래 settings는 ~/.claude/settings.json을 nix store 심링크로 대체함.
+      # 즉 /config나 /plugin UI에서 바꾼 값은 저장되지 않으니 여기서 관리할 것.
+      settings = {
+        env = {
+          CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";
+        };
+
+        permissions = {
+          defaultMode = "auto";
+        };
+
+        theme = "light-daltonized";
+        tui = "default";
+        effortLevel = "xhigh";
+        alwaysThinkingEnabled = true;
+        askUserQuestionTimeout = "5m";
+        skipDangerousModePermissionPrompt = true;
+        skipAutoPermissionPrompt = true;
+
+        # 마켓플레이스 clone은 Claude Code가 런타임에 처리함(~/.claude/plugins/marketplaces).
+        # rev 고정이 아니라 기본 브랜치 최신을 따라감.
+        extraKnownMarketplaces = {
+          claude-community.source = {
+            source = "github";
+            repo = "anthropics/claude-plugins-community";
+          };
+        };
+
+        # 선언해두면 세션 시작 시 installed_plugins.json이 동기화되며 자동 설치됨
+        enabledPlugins = {
+          "eli5@claude-community" = true;
+        };
+      };
+    };
     obsidian = {
       enable = true;
     };
@@ -584,7 +625,6 @@ in
             "3.10"
           ];
           ruby = "3.1.7"; # (25/11/12) 3.4.x not works
-          rust = "1.91.0";
           sbt = "1.11.4";
           scala = "2.12.18";
           terraform = [
@@ -593,6 +633,7 @@ in
             "1.13.5"
             "1.14.3"
           ];
+          databricks-cli = "1.5.0";
         };
         settings = {
           idiomatic_version_file_enable_tools = [ ];
@@ -647,6 +688,8 @@ in
         mouse = "r";
         splitright = true;
         splitbelow = true;
+
+        winborder = "single";
 
         # # tab
         # tabstop = 4;
@@ -903,9 +946,9 @@ in
             };
             rust_analyzer = {
               enable = true;
-              installCargo = true;
-              installRustc = true;
-              installRustfmt = true;
+              installCargo = false;
+              installRustc = false;
+              installRustfmt = false;
             };
             terraformls = {
               enable = true;
@@ -1141,8 +1184,8 @@ in
           src = pkgs.fetchFromGitHub {
             owner = "orslow";
             repo = "claude-shuttle";
-            rev = "5446e5c711a102730ff90caf85f1c328c4da32d8";
-            hash = "sha256-Sj3dfYjZ8i/mH7l3Lqlxg++UnnMr46tNWb62kqgqufU=";
+            rev = "f18628f61adaef62346256e515ae4f666432aee0";
+            hash = "sha256-PsMU9e1iG0QJ5bsJPUQMpby4X8KToCa+DXXFI6BrOhg=";
           };
         })
         (pkgs.vimUtils.buildVimPlugin {
@@ -1224,6 +1267,7 @@ in
 
     tmux = {
       enable = true;
+      package = pkgs-unstable.tmux;
       clock24 = true;
       extraConfig = ''
         set -gu default-command
@@ -1324,8 +1368,9 @@ in
         kx = "kubectx";
         ks = "kubens";
         # claude = "claude --dangerously-skip-permissions";
-        # cl = "claude --dangerously-skip-permissions --enable-auto-mode --effort max --plugin-dir ~/.agents";
-        cl = "claude --dangerously-skip-permissions --enable-auto-mode --effort xhigh --plugin-dir ~/.agents";
+        # plugin은 programs.claude-code.plugins에서 --plugin-dir로 주입됨
+        # cl = "claude --dangerously-skip-permissions --enable-auto-mode --effort max";
+        cl = "claude --dangerously-skip-permissions --enable-auto-mode --effort xhigh";
       };
       history = {
         ignoreDups = false;

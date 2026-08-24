@@ -65,13 +65,6 @@
                   group = "staff";
                   mode = "0400";
                 };
-                # age.secrets.anthropicApiKey = {
-                #   file = ./secrets/anthropic_api_key.age;
-                #   path = "${homeDir}/.anthropic_api_key";
-                #   owner = username;
-                #   group = "staff";
-                #   mode = "0400";
-                # };
 
                 # Necessary for using flakes on this system.
                 nix.settings.experimental-features = "nix-command flakes";
@@ -175,11 +168,10 @@
                     WindowManager = {
                       EnableStandardClickToShowDesktop = false;
                     };
-                  };
 
-                  keyboard = {
-                    enableKeyMapping = true;
-                    remapCapsLockToControl = true;
+                    controlcenter = {
+                      FocusModes = true;
+                    };
                   };
                 };
               }
@@ -219,6 +211,15 @@
       darwinConfigurations = {
         "jueon" = mkDarwinConfig { hostName = "jueon"; };
         "jueon-macmini" = mkDarwinConfig { hostName = "jueon-macmini"; };
+      };
+
+      # 프로젝트 devShell 템플릿
+      # $ nix flake init -t ~/.config/nix-flakes#rust
+      templates = {
+        rust = {
+          path = ./templates/rust;
+          description = "Rust devShell pinned by rust-toolchain.toml (rust-overlay + direnv)";
+        };
       };
     };
 }
