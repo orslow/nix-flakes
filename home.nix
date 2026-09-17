@@ -178,6 +178,8 @@ in
         tui = "default";
         effortLevel = "xhigh";
         alwaysThinkingEnabled = true;
+        # 소크라테스식 학습 모드: Insights + TODO(human) 마커로 핵심 코드를 직접 작성하게 함
+        outputStyle = "Learning";
         askUserQuestionTimeout = "5m";
         skipDangerousModePermissionPrompt = true;
         skipAutoPermissionPrompt = true;
@@ -691,9 +693,15 @@ in
 
         winborder = "single";
 
-        # # tab
-        # tabstop = 4;
-        # expandtab = true;
+        # tab / indent (전역 fallback)
+        # ftplugin(python 4, go 탭, yaml/terraform 2 등)과 .editorconfig 가
+        # 항상 setlocal 로 덮으므로 해당 filetype 은 무영향.
+        # tabstop 은 8 유지 -> go 등 탭 기반 파일의 렌더링 폭 보존.
+        # 실효 대상: json, ts/js, lua, sh, c/cpp, nix, html, css, sql, toml 등
+        # 런타임이 폭을 선언하지 않아 vi 기본값 8칸을 상속하던 filetype
+        shiftwidth = 2;
+        softtabstop = 2;
+        expandtab = true;
 
         # search settings
         ignorecase = true;
