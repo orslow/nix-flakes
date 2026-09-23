@@ -1,4 +1,9 @@
-{ pkgs, pkgs-unstable, ... }:
+{
+  pkgs,
+  pkgs-unstable,
+  fenixPkgs,
+  ...
+}:
 let
   ankitui = pkgs.rustPlatform.buildRustPackage {
     pname = "ankitui";
@@ -93,7 +98,7 @@ in
         podman-compose
         postgresql
         protobuf
-        # raycast
+        raycast
         rectangle
         saml2aws
         shellcheck
@@ -115,15 +120,23 @@ in
         firefox
         gws
         mtr-gui
-        raycast
         # slack
+        notion-app
       ])
       ++ [
-        # 글로벌 Rust 폴백: devShell 밖에서 rust-analyzer 가 cargo check/rustfmt 를
+        # 글로벌 Rust 폴백: devShell 밖에서 rust-analyzer 가 cargo check/clippy/rustfmt 를
         # 실행할 수 있게 함. devShell 안에서는 nix develop 이 PATH 앞에 붙어 무시됨
-        cargo
-        rustc
-        rustfmt
+        # fenix 는 rustup 공식 바이너리를 그대로 받아 하나로 묶음 -> 소스 빌드 없음
+        (fenixPkgs.stable.withComponents [
+          "cargo"
+          "clippy"
+          # rust-analyzer 를 툴체인에 포함시켜야 proc-macro ABI 가 rustc 와 일치함
+          "rust-analyzer"
+          "rust-src"
+          # fenix 의 rustc 는 rust-std 를 포함한 wrapper -> rust-std 별도 지정 불필요
+          "rustc"
+          "rustfmt"
+        ])
         ankitui
       ];
 
@@ -178,8 +191,7 @@ in
         tui = "default";
         effortLevel = "xhigh";
         alwaysThinkingEnabled = true;
-        # 소크라테스식 학습 모드: Insights + TODO(human) 마커로 핵심 코드를 직접 작성하게 함
-        outputStyle = "Learning";
+        outputStyle = "Concise";
         askUserQuestionTimeout = "5m";
         skipDangerousModePermissionPrompt = true;
         skipAutoPermissionPrompt = true;
@@ -198,9 +210,6 @@ in
           "eli5@claude-community" = true;
         };
       };
-    };
-    obsidian = {
-      enable = true;
     };
     fish = {
       enable = true;
@@ -957,6 +966,9 @@ in
               installCargo = false;
               installRustc = false;
               installRustfmt = false;
+              # nixvim 은 기본적으로 자기 rust-analyzer 를 PATH 맨 앞에 붙여, devShell 이 toolchain 과 짝을 맞춰 제공하는 rust-analyzer 를 가림.
+              # suffix 로 밀어 프로젝트 toolchain 이 이기게 하고, devShell 밖에서는 폴백으로 남김.
+              packageFallback = true;
             };
             terraformls = {
               enable = true;
@@ -1142,9 +1154,9 @@ in
               "buffer"
             ];
 
-            # nixpkgs가 Rust fuzzy lib 빌드, nixvim이 target/release 링크
-            # prefer_rust: 있으면 사용, 없으면 Lua 폴백 (하드 에러 회피)
-            fuzzy.implementation = "prefer_rust";
+            # # nixpkgs가 Rust fuzzy lib 빌드, nixvim이 target/release 링크
+            # # prefer_rust: 있으면 사용, 없으면 Lua 폴백 (하드 에러 회피)
+            # fuzzy.implementation = "prefer_rust";
           };
         };
 
@@ -1375,9 +1387,6 @@ in
         k9sw = "k9s --readonly=false";
         kx = "kubectx";
         ks = "kubens";
-        # claude = "claude --dangerously-skip-permissions";
-        # plugin은 programs.claude-code.plugins에서 --plugin-dir로 주입됨
-        # cl = "claude --dangerously-skip-permissions --enable-auto-mode --effort max";
         cl = "claude --dangerously-skip-permissions --enable-auto-mode --effort xhigh";
       };
       history = {
@@ -1399,6 +1408,11 @@ in
 
         export EDITOR=nvim
         export VISUAL=nvim
+
+        # nix-shell 이 TMPDIR 을 길게 바꿔 unix 소켓 경로가 macOS 한계(104B) 초과
+        # -> nvim serverstart 실패(EINVAL). 짧은 런타임 디렉터리 고정
+        export XDG_RUNTIME_DIR="/tmp/xdg-$UID"
+        [ -d "$XDG_RUNTIME_DIR" ] || mkdir -m 700 -p "$XDG_RUNTIME_DIR"
 
         # fn+delete
         bindkey "\e[3~" delete-char

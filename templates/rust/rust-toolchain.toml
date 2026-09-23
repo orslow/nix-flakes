@@ -1,5 +1,5 @@
 [toolchain]
-channel = "stable"
+channel = "1.93.1"
 # rust-analyzer 를 툴체인에 포함시켜야 proc-macro ABI 가 rustc 와 일치함
 components = [
   "rust-analyzer",

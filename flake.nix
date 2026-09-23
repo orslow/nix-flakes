@@ -20,13 +20,14 @@
       # inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
-    # mac-app-util = {
-    #   url = "github:hraban/mac-app-util";
-    # };
-
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    fenix = {
+      url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
   };
 
@@ -39,6 +40,7 @@
       home-manager,
       nixvim,
       agenix,
+      fenix,
     }:
     let
       username = "jueon";
@@ -197,6 +199,7 @@
                   system = "aarch64-darwin";
                   config.allowUnfree = true;
                 };
+                fenixPkgs = fenix.packages.aarch64-darwin;
               };
             }
             # mac-app-util.darwinModules.default
@@ -213,13 +216,33 @@
         "jueon-macmini" = mkDarwinConfig { hostName = "jueon-macmini"; };
       };
 
-      # 프로젝트 devShell 템플릿
-      # $ nix flake init -t ~/.config/nix-flakes#rust
-      templates = {
-        rust = {
-          path = ./templates/rust;
-          description = "Rust devShell pinned by rust-toolchain.toml (rust-overlay + direnv)";
-        };
-      };
+      # packages.aarch64-darwin.default = fenix.packages.aarch64-darwin.minimal.toolchain;
+      # nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+      #   system = "aarch64-darwin";
+      #   modules = [
+      #     ({ pkgs, ... }: {
+      #       nixpkgs.overlays = [ fenix.overlays.default ];
+      #       environment.systemPackages = [
+      #         (pkgs.fenix.complete.withComponents [
+      #           "cargo"
+      #           "clippy"
+      #           "rust-src"
+      #           "rustc"
+      #           "rustfmt"
+      #         ])
+      #         pkgs.rust-analyzer-nightly
+      #       ];
+      #     })
+      #   ];
+      # };
+
+      # # 프로젝트 devShell 템플릿
+      # # $ nix flake init -t ~/.config/nix-flakes#rust
+      # templates = {
+      #   rust = {
+      #     path = ./templates/rust;
+      #     description = "Rust devShell pinned by rust-toolchain.toml (rust-overlay + direnv)";
+      #   };
+      # };
     };
 }
