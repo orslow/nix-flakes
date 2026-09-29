@@ -2,43 +2,29 @@
 
 ## Agent Teams Policy
 
-### Always Use Agent Teams
-For every task, regardless of size or complexity, you can use Agent Teams. Do not fall back to single-session execution. Tokens are not a big constraint — parallel collaboration and higher output quality are the priority.
+### 팀을 꾸릴 조건
+아래 중 **하나 이상**에 해당할 때만 팀을 꾸린다. 아니면 단일 세션으로 처리하고,
+아래 `## Devil's Advocate` 자문 체크리스트만 적용한다.
 
-### Mandatory Team Structure
-Every team could include the following roles at minimum:
-1. Team Lead (you)
-- Decompose the task into clearly scoped, parallel workstreams
-- Assign teammates their roles and initial instructions
-- Synthesize all findings and outputs at the end
-- Make final decisions when teammates disagree
-2. Specialist Teammate(s)
-- Assign one or more teammates with focused, domain-specific roles relevant to the task (e.g., backend, frontend, architecture, security, testing, documentation)
-- Each specialist should work independently within their domain and communicate findings directly to other teammates as needed
-3. Devil's Advocate Teammate (mandatory, non-negotiable)
-- This teammate should always be present in every team, no exceptions.
-- Role: Critically challenge every assumption, decision, and output produced by the other teammates. The Devil's Advocate does not aim to obstruct — it aims to surface risks, blind spots, and alternative perspectives that improve the final result.
-- Responsibilities:
-  - Question whether the chosen approach is truly the best one
-  - Identify edge cases, failure modes, and unintended consequences
-  - Challenge overly optimistic estimates or assumptions
-  - Propose alternative solutions and force comparison
-  - Flag any decisions made for convenience rather than correctness
-  - Ensure the team does not converge on the first reasonable-sounding answer
-- Tone: Rigorous and constructive. The goal is to make the output stronger, not to criticize for its own sake.
+- 서로 독립적인 조사 축이 3개 이상이고, 병렬로 돌리면 실제로 시간이 줄어든다
+- 외부 소스(upstream 소스코드, 문서, 다른 레포)를 파야 해서 컨텍스트가 크게 불어난다
+- 되돌리기 어렵거나 영향 범위가 큰 결정이다 (아키텍처 선택, 마이그레이션, 장애 진단)
+- 이미 특정 가설에 기울어 있어서 독립적인 반대 심문이 필요하다
+- 사용자가 명시적으로 요청했다
 
-### Workflow Guidelines
-1. Plan before spawning. Use plan mode first to outline workstreams, then hand the plan to the team for parallel execution.
-2. Define clear ownership. Each teammate should own a distinct, non-overlapping area to avoid edit collisions and redundant work.
-3. Encourage direct teammate communication. Teammates should message each other directly when their work intersects — do not route everything through the Team Lead.
-4. Devil's Advocate reviews last (but before synthesis). After specialists complete their work, the Devil's Advocate reviews all outputs and raises objections. The Team Lead then synthesizes with those objections in mind.
-5. Document disagreements. If the Devil's Advocate raises a concern that is overruled, note the decision and the rationale in the final output.
+### 팀을 꾸리지 않는 경우
+단순 조회, 파일 몇 개 읽고 답하는 질문, 한 파일 수정, 명령어 한 줄,
+이미 답을 아는 것의 확인. **먼저 직접 해보고 범위가 커지면 그때 띄운다.**
 
-### Example Minimal Prompt
-Create an agent team for this task. Assign:
-- One teammate as [relevant specialist role]
-- One teammate as Devil's Advocate — their job is to critically challenge every decision, assumption, and output from the other teammates
-Coordinate work in parallel and synthesize findings at the end.
+### 팀을 꾸릴 때의 규칙
+1. 담당 영역을 **파일 단위로 겹치지 않게** 나눈다. 팀원이 보는 파일을 Lead가 동시에 읽지 않는다
+2. Devil's Advocate 는 팀을 꾸릴 때 **반드시 포함**한다 (이 조건은 non-negotiable)
+   - 역할: 모든 가정·결정·산출물을 비판적으로 검증. 방해가 목적이 아니라 리스크와 맹점을 드러내는 것이 목적
+   - 선택한 접근이 정말 최선인지, 엣지 케이스와 실패 모드는 무엇인지, 편의를 위해 내린 결정은 없는지 따진다
+   - 첫 번째로 그럴듯한 답에 팀이 수렴하지 않게 막는다
+3. 리포트는 **결론 우선, 핵심 근거만** — 긴 코드 블록 대신 `file:line` 인용
+4. DA 는 specialist 산출물이 나온 뒤 검토하고, Lead 는 그 반론을 반영해 종합한다
+5. DA 의견이 기각되면 결정과 근거를 최종 산출물에 남긴다
 
 ---
 
