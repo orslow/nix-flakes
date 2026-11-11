@@ -1,7 +1,9 @@
 {
+  config,
   pkgs,
   pkgs-unstable,
   fenixPkgs,
+  claudeCodePkgs,
   ...
 }:
 let
@@ -171,7 +173,7 @@ in
   programs = {
     claude-code = {
       enable = true;
-      package = pkgs-unstable.claude-code;
+      package = claudeCodePkgs.claude-code;
       # plugins = [ ./claude/plugins/agents-skills ];
       # context = ./claude/CLAUDE.md;
       # commandsDir = ./claude/commands;

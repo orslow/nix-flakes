@@ -29,6 +29,12 @@
       url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
+    # claude-code만 최신 유지용(매시간 자동 갱신). `nix flake update claude-code-nix`로 단독 갱신
+    claude-code-nix = {
+      url = "github:sadjow/claude-code-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -41,6 +47,7 @@
       nixvim,
       agenix,
       fenix,
+      claude-code-nix,
     }:
     let
       username = "jueon";
@@ -200,6 +207,7 @@
                   config.allowUnfree = true;
                 };
                 fenixPkgs = fenix.packages.aarch64-darwin;
+                claudeCodePkgs = claude-code-nix.packages.aarch64-darwin;
               };
             }
             # mac-app-util.darwinModules.default
