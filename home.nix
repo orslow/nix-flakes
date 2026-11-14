@@ -1285,6 +1285,8 @@ in
       enable = true;
       package = pkgs-unstable.tmux;
       clock24 = true;
+      # prefix C-s 저장, prefix C-r 복원 (~/.tmux/resurrect)
+      plugins = [ pkgs.tmuxPlugins.resurrect ];
       extraConfig = ''
         set -gu default-command
         set -g default-shell "$SHELL"
@@ -1297,8 +1299,8 @@ in
 
         setw -g mode-keys vi
 
-        # open window with currrent path
-        bind c new-window -a -t '{end}' -c '#{pane_current_path}'
+        # open window in home
+        bind c new-window -a -t '{end}' -c '#{HOME}'
 
         # renumber windows when one is closed
         set -g renumber-windows on
