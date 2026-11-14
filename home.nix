@@ -93,19 +93,17 @@ in
         kubectx
         kubernetes-helm
         # leveldb
-        monitorcontrol
+        # monitorcontrol
         mysql84
         packer
         podman
         podman-compose
         postgresql
         protobuf
-        raycast
         rectangle
         saml2aws
         shellcheck
         scdoc
-        slack
         sqlite
         tree
         unzip
@@ -119,11 +117,11 @@ in
       ]
       ++ (with pkgs-unstable; [
         tailscale
-        firefox
-        gws
-        mtr-gui
+        # mtr-gui
+        # firefox
         # slack
-        notion-app
+        # notion-app
+        # raycast
       ])
       ++ [
         # 글로벌 Rust 폴백: devShell 밖에서 rust-analyzer 가 cargo check/clippy/rustfmt 를
@@ -345,10 +343,6 @@ in
     direnv = {
       enable = true;
       enableZshIntegration = true;
-    };
-
-    discord = {
-      enable = true;
     };
 
     # firefox = {
@@ -1074,7 +1068,7 @@ in
         treesitter = {
           enable = true;
 
-          grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+          grammarPackages = with config.programs.nixvim.plugins.treesitter.package.builtGrammars; [
             bash
             lua
             make

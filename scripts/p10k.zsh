@@ -53,7 +53,7 @@
     vcs                       # git status
     kubecontext               # current kubernetes context (https://kubernetes.io/)
     # command_execution_time  # previous command duration
-    virtualenv              # python virtual environment
+    # virtualenv              # python virtual environment
     prompt_char               # prompt symbol
   )
 
