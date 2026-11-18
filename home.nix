@@ -172,6 +172,25 @@ in
     claude-code = {
       enable = true;
       package = claudeCodePkgs.claude-code;
+      # 외부 소스 플러그인은 enabledPlugins만으론 설치 기록(installed_plugins.json)이 안 남음
+      # -> --plugin-dir 래퍼로 직접 로드 (datadog@inline, claude-plugins-official의 datadog과 동일 커밋)
+      plugins = [
+        (pkgs.fetchFromGitHub {
+          owner = "datadog-labs";
+          repo = "claude-code-plugin";
+          rev = "195f570c002beab3d7bd342739034d0019aa4863"; # 0.7.17
+          hash = "sha256-PlnDYDWyZVf8qPaVInqjtrcRrRDAESd3wV7VCFgDtDE=";
+        })
+        # eli5: claude-plugins-community 저장소의 하위 디렉터리
+        "${
+          pkgs.fetchFromGitHub {
+            owner = "anthropics";
+            repo = "claude-plugins-community";
+            rev = "f4c9452f5ca091f1be7064d9faab1b001ea21645";
+            hash = "sha256-iKvIn5H0+zoAB9svNl3v2Mss3akRF2WqiokgzcidegU=";
+          }
+        }/eli5"
+      ];
       # plugins = [ ./claude/plugins/agents-skills ];
       # context = ./claude/CLAUDE.md;
       # commandsDir = ./claude/commands;
@@ -181,6 +200,8 @@ in
       settings = {
         env = {
           CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";
+          # datadog 플러그인 MCP 도메인 (US1). 플러그인이 읽기 전용이라 ddsetup 대신 env로 설정
+          DD_MCP_DOMAIN = "mcp.datadoghq.com";
         };
 
         permissions = {
@@ -196,19 +217,9 @@ in
         skipDangerousModePermissionPrompt = true;
         skipAutoPermissionPrompt = true;
 
-        # 마켓플레이스 clone은 Claude Code가 런타임에 처리함(~/.claude/plugins/marketplaces).
-        # rev 고정이 아니라 기본 브랜치 최신을 따라감.
-        extraKnownMarketplaces = {
-          claude-community.source = {
-            source = "github";
-            repo = "anthropics/claude-plugins-community";
-          };
-        };
-
-        # 선언해두면 세션 시작 시 installed_plugins.json이 동기화되며 자동 설치됨
-        enabledPlugins = {
-          "eli5@claude-community" = true;
-        };
+        # 조직 제공 claude.ai 커넥터는 제거 불가 -> 이름으로 숨김
+        # (URL 패턴은 datadog 플러그인 MCP와 같은 호스트라 함께 막히므로 사용 금지)
+        deniedMcpServers = [ { serverName = "claude.ai Datadog"; } ];
       };
     };
     fish = {
