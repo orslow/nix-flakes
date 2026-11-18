@@ -190,6 +190,15 @@ in
             hash = "sha256-iKvIn5H0+zoAB9svNl3v2Mss3akRF2WqiokgzcidegU=";
           }
         }/eli5"
+        # frontend-design: claude-plugins-official 저장소의 하위 디렉터리
+        "${
+          pkgs.fetchFromGitHub {
+            owner = "anthropics";
+            repo = "claude-plugins-official";
+            rev = "e6143c9807a001832badb63e89d58ffe25d542ec";
+            hash = "sha256-J6JgsD2V+fAhCLACVcAM/z+60QNuF5W99SzcHkG1g1w=";
+          }
+        }/plugins/frontend-design"
       ];
       # plugins = [ ./claude/plugins/agents-skills ];
       # context = ./claude/CLAUDE.md;
